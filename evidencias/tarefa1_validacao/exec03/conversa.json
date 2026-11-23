@@ -1,0 +1,52 @@
+[
+  {
+    "role": "system",
+    "content": "Você é um agente que valida planilhas de vendas. Use somente as ferramentas. Grave arquivos só em saidas/ e nunca altere dados/. Toda contagem vem de um script, nunca de você. O relatório é gerado pelo script: não o reescreva."
+  },
+  {
+    "role": "user",
+    "content": "Tarefa 1: valide a planilha de vendas. 1) Rode 'head -n 5 dados/vendas.csv' para ver a estrutura. 2) Rode 'python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md'. 3) Responda com a saída do script."
+  },
+  {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "fc_215369e9-0c60-4629-a94a-0d38d2989f5f",
+        "type": "function",
+        "function": {
+          "name": "run_command",
+          "arguments": "{\"command\":\"head -n 5 dados/vendas.csv\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "fc_215369e9-0c60-4629-a94a-0d38d2989f5f",
+    "content": "data,pedido_id,produto,categoria,regiao,quantidade,preco_unitario,valor_total\n2026-01-07,PED-00001,Mesa,Móveis,MG,2,1200.0,2400.0\n2026-01-27,PED-00002,Mouse,Acessórios,RS,3,80.0,240.0\n2026-01-09,PED-00003,Cadeira,Móveis,SP,7,700.0,4900.0\n2026-05-10,PED-00004,Mouse,Acessórios,RS,4,80.0,320.0"
+  },
+  {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "fc_914b6ff2-d66d-4012-adc6-46425bf6ce1c",
+        "type": "function",
+        "function": {
+          "name": "run_command",
+          "arguments": "{\"command\":\"python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "fc_914b6ff2-d66d-4012-adc6-46425bf6ce1c",
+    "content": "Linhas: 500 | Tipos de problema: 1 | Avisos: 0\n- vendedor | coluna obrigatória ausente | 1\nRelatório: saidas/relatorio_qualidade.md"
+  },
+  {
+    "role": "assistant",
+    "content": "```\nLinhas: 500 | Tipos de problema: 1 | Avisos: 0\n- vendedor | coluna obrigatória ausente | 1\nRelatório: saidas/relatorio_qualidade.md\n```\n"
+  }
+]
