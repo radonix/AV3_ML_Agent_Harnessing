@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": { "providerID": "groq", "model": "openai/gpt-oss-20b" },
+  "permissions": [
+    { "action": "*", "resource": "*", "effect": "deny" },
+
+    { "action": "read", "resource": "dados/*", "effect": "allow" },
+    { "action": "read", "resource": "saidas/*", "effect": "allow" },
+    { "action": "read", "resource": "AGENTS.md", "effect": "allow" },
+
+    { "action": "shell", "resource": "head -n 5 dados/*", "effect": "allow" },
+    { "action": "shell", "resource": "python3 scripts/validar_planilha.py *", "effect": "allow" },
+
+    { "action": "shell", "resource": "* > *", "effect": "deny" },
+    { "action": "shell", "resource": "* >> *", "effect": "deny" },
+    { "action": "shell", "resource": "*;*", "effect": "deny" },
+    { "action": "shell", "resource": "*&&*", "effect": "deny" },
+    { "action": "shell", "resource": "*|*", "effect": "deny" },
+    { "action": "shell", "resource": "* -o dados/*", "effect": "deny" }
+  ]
+}

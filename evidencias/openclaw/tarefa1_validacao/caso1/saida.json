@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "status": "ok",
+  "final": "I’m sorry, but I’m unable to run the shell commands required to validate the spreadsheet at this time.",
+  "payloads": [
+    {
+      "text": "I’m sorry, but I’m unable to run the shell commands required to validate the spreadsheet at this time.",
+      "mediaUrl": null
+    }
+  ],
+  "usage": {
+    "usageReport": {
+      "state": "unavailable"
+    },
+    "contextUsage": {
+      "state": "unavailable"
+    }
+  },
+  "codeModeEngaged": false,
+  "assistantTurns": 16,
+  "bridgeCalls": {
+    "search": 1,
+    "describe": 1,
+    "call": 3
+  },
+  "model": "openai/gpt-oss-20b",
+  "provider": "groq",
+  "sessionId": "0fb1916b-1a72-4efb-95b4-c9df08f53fcb"
+}

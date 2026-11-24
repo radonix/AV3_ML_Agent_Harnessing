@@ -1,0 +1,27 @@
+{
+  "ok": false,
+  "status": "error",
+  "final": "",
+  "payloads": [
+    {
+      "text": "Context overflow: prompt too large for the model. Try /reset (or /new) to start a fresh session, or use a larger-context model. Completed tool actions were not replayed; verify their effects before retrying.",
+      "mediaUrl": null,
+      "isError": true
+    }
+  ],
+  "usage": {
+    "usageReport": {
+      "state": "unavailable"
+    },
+    "contextUsage": {
+      "state": "unavailable"
+    }
+  },
+  "model": "openai/gpt-oss-20b",
+  "provider": "groq",
+  "sessionId": "694d7779-87cc-46a4-86b6-f72d5fefd2ba",
+  "error": {
+    "message": "413 Request too large for model `openai/gpt-oss-20b` in organization `org_01m8566w6ee40b3weptyzt0rm2` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Requested 11191, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing; Retry-After: 46 seconds",
+    "kind": "context_overflow"
+  }
+}
