@@ -1,1 +1,0 @@
-print("Olá do Agente Autônomo!")

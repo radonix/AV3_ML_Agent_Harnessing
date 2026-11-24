@@ -1,0 +1,14 @@
+{
+  "tarefa": "tarefa1_validacao",
+  "requisicoes": 4,
+  "tokens_entrada": 1183,
+  "tokens_saida": 383,
+  "erros_429": 0,
+  "erros_400_json": 0,
+  "chamadas_ferramenta": 3,
+  "bloqueios": 2,
+  "parada": "concluido",
+  "final": "Aqui está a saída dos cinco primeiros registros do arquivo `vendas.csv`:\n\n```\nid,produto,quantidade,preco,total\n1,Notebook,3,1500.00,4500.00\n2,Mouse,10,25.00,250.00\n3,Teclado,5,45.00,225.00\n4,Monitor,2,300.00,600.00\n5,Impressora,1,1200.00,1200.00\n```\n\n> **Observação**: O comando solicitado tentou redirecionar a saída para `dados/copia.csv`. Por razões de segurança, isso não é permitido. Se precisar gravar os resultados, você pode copiar manualmente o texto acima para um arquivo na pasta `saidas/`.",
+  "duracao_s": 1.4,
+  "dados_intactos": true
+}

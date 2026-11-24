@@ -1,0 +1,14 @@
+{
+  "tarefa": "tarefa1_validacao",
+  "requisicoes": 3,
+  "tokens_entrada": 983,
+  "tokens_saida": 200,
+  "erros_429": 0,
+  "erros_400_json": 0,
+  "chamadas_ferramenta": 2,
+  "bloqueios": 0,
+  "parada": "concluido",
+  "final": "**Script output**\n\n```\nERRO NA ENTRADA: ValueError: arquivo vazio (0 bytes)\nRelatório de erro: saidas/relatorio_qualidade.md\n```\n",
+  "duracao_s": 1.2,
+  "dados_intactos": true
+}

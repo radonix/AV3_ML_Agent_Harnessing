@@ -1,0 +1,52 @@
+[
+  {
+    "role": "system",
+    "content": "Você é um agente que valida planilhas de vendas. Use somente as ferramentas. Grave arquivos só em saidas/ e nunca altere dados/. Toda contagem vem de um script, nunca de você. O relatório é gerado pelo script: não o reescreva."
+  },
+  {
+    "role": "user",
+    "content": "Tarefa 1: valide a planilha de vendas. 1) Rode 'head -n 5 dados/vendas.csv' para ver a estrutura. 2) Rode 'python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md'. 3) Responda com a saída do script."
+  },
+  {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "fc_1ad86b30-54e4-4545-a6f5-a1a953439234",
+        "type": "function",
+        "function": {
+          "name": "run_command",
+          "arguments": "{\"command\":\"head -n 5 dados/vendas.csv\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "fc_1ad86b30-54e4-4545-a6f5-a1a953439234",
+    "content": "data,pedido_id,produto,categoria,regiao,vendedor,quantidade,preco_unitario,valor_total\n2026-01-07,PED-00001,Mesa,Móveis,MG,Bruno,2,1200.0,2400.0\n2026-01-27,PED-00002,Mouse,Acessórios,RS,Ana,3,80.0,240.0\n2026-01-09,PED-00003,Cadeira,Móveis,SP,Ana,7,700.0,4900.0\n2026-05-10,PED-00004,Mouse,Acessórios,RS,Ana,4,80.0,320.0"
+  },
+  {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "fc_d267f656-8f1e-4103-ae6e-9f4cd827e68f",
+        "type": "function",
+        "function": {
+          "name": "run_command",
+          "arguments": "{\"command\":\"python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md\"}"
+        }
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "fc_d267f656-8f1e-4103-ae6e-9f4cd827e68f",
+    "content": "Linhas: 505 | Tipos de problema: 2 | Avisos: 0\n- data | data inválida | 3\n- (linha inteira) | linha duplicada (cópia exata de outra) | 5\nRelatório: saidas/relatorio_qualidade.md"
+  },
+  {
+    "role": "assistant",
+    "content": "Linhas: 505 | Tipos de problema: 2 | Avisos: 0  \n- data | data inválida | 3  \n- (linha inteira) | linha duplicada (cópia exata de outra) | 5  \nRelatório: saidas/relatorio_qualidade.md"
+  }
+]

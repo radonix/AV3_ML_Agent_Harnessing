@@ -1,0 +1,15 @@
+// OpenClaw 2026.11.7 — Tarefa 1. Use com: --config openclaw/openclaw.json5 --cwd .
+// A chave vem de GROQ_API_KEY no ambiente (arquivo .env), nunca deste arquivo.
+{
+  agents: {
+    defaults: {
+      model: { primary: "groq/openai/gpt-oss-20b" },
+    },
+  },
+  tools: {
+    profile: "minimal",          // contexto fixo menor (5.562 tokens medidos, contra 9.471 no padrão)
+    alsoAllow: ["exec"],         // só execução de comandos; sem read/write/edit
+    loopDetection: { enabled: true },
+    exec: { mode: "allowlist" }, // só os binários aprovados com `openclaw approvals allowlist add`
+  },
+}

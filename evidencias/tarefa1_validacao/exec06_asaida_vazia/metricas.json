@@ -1,0 +1,14 @@
+{
+  "tarefa": "tarefa1_validacao",
+  "requisicoes": 2,
+  "tokens_entrada": 528,
+  "tokens_saida": 113,
+  "erros_429": 0,
+  "erros_400_json": 0,
+  "chamadas_ferramenta": 1,
+  "bloqueios": 0,
+  "parada": "concluido",
+  "final": "Não foi possível obter as linhas solicitadas – o comando `head -n 5 dados/vendas.csv` retornou vazio. Se houver algum problema com o caminho ou se o arquivo não existir, por favor verifique e informe para que eu possa tentar novamente.",
+  "duracao_s": 0.6,
+  "dados_intactos": true
+}
