@@ -10,7 +10,8 @@ CONFIG = Config(
         "Você é um agente que valida planilhas de vendas. Use somente as ferramentas. "
         "Grave arquivos só em saidas/ e nunca altere dados/. "
         "Toda contagem vem de um script, nunca de você. "
-        "O relatório é gerado pelo script: não o reescreva."
+        "O relatório é gerado pelo script: não o reescreva. "
+        "Se uma ferramenta falhar ou não devolver dados, diga isso e não mostre dados que não vieram de uma ferramenta."
     ),
     tarefa=(
         "Tarefa 1: valide a planilha de vendas. "

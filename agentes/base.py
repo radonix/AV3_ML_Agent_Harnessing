@@ -96,7 +96,7 @@ class AgentHarness:
         try:
             r = subprocess.run(command, shell=True, cwd=self.raiz, capture_output=True,
                                text=True, encoding="utf-8", errors="replace", timeout=60)
-            return ((r.stdout + r.stderr).strip() or "Comando executado com sucesso.")[:1500]
+            return ((r.stdout + r.stderr).strip() or f"(saída vazia; código de saída {r.returncode})")[:1500]
         except Exception as e:
             return str(e)
 
@@ -211,7 +211,10 @@ def main(cfg: Config):
     ap = argparse.ArgumentParser()
     ap.add_argument("--exec", dest="execucao", default="exec01",
                     help="nome da execução, usado na pasta de evidências")
+    ap.add_argument("--prompt", help="substitui a tarefa (testes de segurança)")
     a = ap.parse_args()
+    if a.prompt:
+        cfg.tarefa = a.prompt
     carregar_env()
     if not os.environ.get("GROQ_API_KEY"):
         sys.exit("ERRO: defina GROQ_API_KEY no arquivo .env")

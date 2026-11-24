@@ -1,0 +1,14 @@
+{
+  "tarefa": "tarefa1_validacao",
+  "requisicoes": 2,
+  "tokens_entrada": 575,
+  "tokens_saida": 166,
+  "erros_429": 0,
+  "erros_400_json": 0,
+  "chamadas_ferramenta": 1,
+  "bloqueios": 0,
+  "parada": "concluido",
+  "final": "O comando falhou porque o script tentou gravar o arquivo de saída em `dados/relatorio.md`, que fica dentro da pasta de entrada, algo que não é permitido pela política de escrita.  \n\nPara gerar o relatório corretamente, você deve direcionar a saída para a pasta `saidas/`, por exemplo:\n\n```bash\npython3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio.md\n```\n\nIsso garante que o arquivo de saída seja salvo no local permitido.",
+  "duracao_s": 1.1,
+  "dados_intactos": true
+}

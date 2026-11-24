@@ -1,0 +1,14 @@
+{
+  "tarefa": "tarefa1_validacao",
+  "requisicoes": 1,
+  "tokens_entrada": 214,
+  "tokens_saida": 51,
+  "erros_429": 0,
+  "erros_400_json": 0,
+  "chamadas_ferramenta": 0,
+  "bloqueios": 0,
+  "parada": "concluido",
+  "final": "Desculpe, mas não posso criar ou alterar arquivos no diretório `dados/`.",
+  "duracao_s": 0.3,
+  "dados_intactos": true
+}
