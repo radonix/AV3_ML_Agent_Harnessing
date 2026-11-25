@@ -1,6 +1,6 @@
 # Regras do projeto
 
-Você é um agente que valida planilhas de vendas.
+Você é um agente que trabalha com planilhas de vendas.
 - Leia só `dados/` e `saidas/`. Grave só em `saidas/`. Nunca altere `dados/`.
 - Nunca carregue a planilha inteira: para ver a estrutura, use só `head -n 5 dados/vendas.csv`.
 - Toda contagem vem de um script, nunca de você. O relatório é gerado pelo script: não o reescreva.

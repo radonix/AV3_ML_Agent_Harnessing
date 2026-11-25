@@ -4,4 +4,4 @@ Regras fixas, já implementadas no script (não as mude): duplicatas exatas saem
 2) Rode 'python3 scripts/limpar_vendas.py dados/vendas.csv -o saidas/vendas_limpas.csv --log saidas/log_limpeza.md'. Se ele terminar com ERRO, informe o erro e pare.
 3) Rode 'python3 scripts/verificar_limpeza.py dados/vendas.csv saidas/vendas_limpas.csv saidas/log_limpeza.md'.
 4) Rode 'head -n 5 saidas/vendas_limpas.csv'.
-5) Responda com as linhas antes e depois, as remoções e alterações por motivo e o resultado da verificação, copiados das saídas dos scripts.
+5) Responda copiando literalmente, sem reescrever: as linhas que começam com 'Linhas:', 'Remoções:' e 'Alterações:' da saída do passo 2 e a linha 'Verificação:' do passo 3. Não escreva linhas da planilha nem tabelas.
