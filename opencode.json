@@ -11,6 +11,11 @@
     { "action": "shell", "resource": "head -n 5 dados/*", "effect": "allow" },
     { "action": "shell", "resource": "python3 scripts/validar_planilha.py *", "effect": "allow" },
 
+    { "action": "shell", "resource": "python3 scripts/resumir_qualidade.py saidas/relatorio_qualidade.md", "effect": "allow" },
+    { "action": "shell", "resource": "python3 scripts/limpar_vendas.py dados/vendas.csv -o saidas/vendas_limpas.csv --log saidas/log_limpeza.md", "effect": "allow" },
+    { "action": "shell", "resource": "python3 scripts/verificar_limpeza.py dados/vendas.csv saidas/vendas_limpas.csv saidas/log_limpeza.md", "effect": "allow" },
+    { "action": "shell", "resource": "head -n 5 saidas/*", "effect": "allow" },
+
     { "action": "shell", "resource": "* > *", "effect": "deny" },
     { "action": "shell", "resource": "* >> *", "effect": "deny" },
     { "action": "shell", "resource": "*;*", "effect": "deny" },

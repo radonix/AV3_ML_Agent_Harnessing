@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "status": "ok",
+  "final": "I’m unable to execute the Python scripts directly because the current execution environment does not permit running arbitrary shell commands. Therefore I cannot produce the requested output from those scripts.",
+  "payloads": [
+    {
+      "text": "I’m unable to execute the Python scripts directly because the current execution environment does not permit running arbitrary shell commands. Therefore I cannot produce the requested output from those scripts.",
+      "mediaUrl": null
+    }
+  ],
+  "usage": {
+    "usageReport": {
+      "state": "unavailable"
+    },
+    "contextUsage": {
+      "state": "unavailable"
+    }
+  },
+  "codeModeEngaged": false,
+  "assistantTurns": 5,
+  "bridgeCalls": {
+    "search": 1,
+    "describe": 0,
+    "call": 0
+  },
+  "model": "openai/gpt-oss-20b",
+  "provider": "groq",
+  "sessionId": "4f9356eb-5ef3-43d0-8271-43bb26831fa3"
+}

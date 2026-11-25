@@ -1,0 +1,2 @@
+FALHA 1 CSV limpo existe (saidas/vendas_limpas.csv)
+Verificação interrompida: sem CSV limpo.

@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso4",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 5,
+  "tokens_entrada": 2145,
+  "tokens_saida": 442,
+  "tokens_raciocinio": 1021,
+  "tokens_cache": 7680,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 3,
+  "duracao_s": "29.4",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso4_20261125_134301",
+  "resposta_final": "Executei os dois comandos. Como a planilha está vazia, o script encerrou com erro. **1) `head -n 5 dados/vendas.csv`** — nenhuma saída. A leitura do arquivo também retornou 0 linhas. **2) Saída do scr"
+}

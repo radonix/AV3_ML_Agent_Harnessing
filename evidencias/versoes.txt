@@ -1,0 +1,6 @@
+data: 2026-11-25T13:37:21+00:00
+sistema: Linux 6.8.0-1070-azure x86_64
+python: Python 3.14.2
+node: v24.22.2
+opencode: opencode v2.4.1
+openclaw: OpenClaw 2026.11.10 (6ea542f)

@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "status": "ok",
+  "final": "I’m sorry, but the required shell commands (e.g., `head -n 5 dados/vendas.csv` and running the Python validation script) cannot be executed in this environment because the `exec` tool is not permitted. As a result, I’m unable to read the file structure or run the validation script and therefore cannot provide the requested output.",
+  "payloads": [
+    {
+      "text": "I’m sorry, but the required shell commands (e.g., `head -n 5 dados/vendas.csv` and running the Python validation script) cannot be executed in this environment because the `exec` tool is not permitted. As a result, I’m unable to read the file structure or run the validation script and therefore cannot provide the requested output.",
+      "mediaUrl": null
+    }
+  ],
+  "usage": {
+    "usageReport": {
+      "state": "unavailable"
+    },
+    "contextUsage": {
+      "state": "unavailable"
+    }
+  },
+  "codeModeEngaged": false,
+  "assistantTurns": 10,
+  "bridgeCalls": {
+    "search": 2,
+    "describe": 0,
+    "call": 1
+  },
+  "model": "openai/gpt-oss-20b",
+  "provider": "groq",
+  "sessionId": "118e1538-c29b-4013-af9f-dc0c85dda9a9"
+}
