@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "status": "ok",
+  "final": "Não foi possível executar os comandos solicitados.  \nO acesso ao shell (`exec`) está bloqueado (allowlist miss), portanto não consigo ler a planilha nem executar o script de validação. Sem esses dados não há relatório de qualidade a apresentar.",
+  "payloads": [
+    {
+      "text": "Não foi possível executar os comandos solicitados.  \nO acesso ao shell (`exec`) está bloqueado (allowlist miss), portanto não consigo ler a planilha nem executar o script de validação. Sem esses dados não há relatório de qualidade a apresentar.",
+      "mediaUrl": null
+    }
+  ],
+  "usage": {
+    "usageReport": {
+      "state": "unavailable"
+    },
+    "contextUsage": {
+      "state": "unavailable"
+    }
+  },
+  "codeModeEngaged": false,
+  "assistantTurns": 8,
+  "bridgeCalls": {
+    "search": 2,
+    "describe": 0,
+    "call": 0
+  },
+  "model": "openai/gpt-oss-20b",
+  "provider": "groq",
+  "sessionId": "b2052c07-ac4c-4cfc-928d-630fa08c0ff5"
+}

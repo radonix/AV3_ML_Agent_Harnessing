@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso1",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 2,
+  "tokens_entrada": 2996,
+  "tokens_saida": 322,
+  "tokens_raciocinio": 129,
+  "tokens_cache": 0,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "15.3",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso1_20261125_134301",
+  "resposta_final": "## Estrutura da planilha (`head -n 5 dados/vendas.csv`) ```csv data,pedido_id,produto,categoria,regiao,vendedor,quantidade,preco_unitario,valor_total 2026-01-07,PED-00001,Mesa,Móveis,MG,Bruno,2,1200.0"
+}

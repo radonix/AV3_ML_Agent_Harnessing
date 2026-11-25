@@ -1,0 +1,20 @@
+{
+  "plataforma": "openclaw",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso4",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": false,
+  "dados_intactos": true,
+  "requisicoes": 5,
+  "tokens_entrada": "",
+  "tokens_saida": "",
+  "tokens_raciocinio": "",
+  "tokens_cache": "",
+  "erros_429": 2,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 2,
+  "duracao_s": "106.4",
+  "evidencias": "evidencias/openclaw/tarefa1_validacao/caso4_20261125_134301",
+  "resposta_final": "I’m sorry, but I’m unable to run the shell commands you requested (e.g., `head -n 5 dados/vendas.csv` and `python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md`). The "
+}
