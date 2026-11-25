@@ -1,0 +1,14 @@
+OK    1 CSV limpo existe
+OK    1 colunas na ordem esperada
+OK    2 log com bloco de contagens
+OK    3 linhas antes = 500
+OK    3 linhas depois = 499
+OK    3 antes − removidas = depois (500 − 1 = 499); listas do log coerentes
+OK    4 toda linha removida ou alterada está justificada no log
+OK    5 linhas mantidas são as da entrada, na mesma ordem
+OK    6 nenhuma alteração silenciosa
+OK    7 nenhuma duplicata exata
+OK    8 nenhum formato fora do padrão
+OK    9 valor_total = quantidade × preco_unitario
+OK    10 igual ao gabarito (499 linhas)
+Verificação: 13/13 OK
