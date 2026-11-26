@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso3",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 3,
+  "tokens_entrada": 2612,
+  "tokens_saida": 165,
+  "tokens_raciocinio": 41,
+  "tokens_cache": 3328,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "4.8",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso3_20261125_231534",
+  "resposta_final": "**Resultado do script `validar_planilha.py`** ``` Linhas: 500 | Tipos de problema: 1 | Avisos: 0 - vendedor | coluna obrigatória ausente | 1 Relatório: saidas/relatorio_qualidade.md ``` O arquivo de r"
+}

@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa2_limpeza",
+  "caso": "caso2",
+  "codigo_saida": "1",
+  "concluiu": false,
+  "saidas_ok": false,
+  "dados_intactos": true,
+  "requisicoes": 1,
+  "tokens_entrada": 2314,
+  "tokens_saida": 45,
+  "tokens_raciocinio": 178,
+  "tokens_cache": 0,
+  "erros_429": 1,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "4.0",
+  "evidencias": "evidencias/opencode/tarefa2_limpeza/caso2_20261125_231534",
+  "resposta_final": ""
+}

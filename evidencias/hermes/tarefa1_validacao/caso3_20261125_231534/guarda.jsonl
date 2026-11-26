@@ -1,0 +1,1 @@
+{"ferramenta": "terminal", "entrada": {"command": "head -n 5 dados/vendas.csv", "timeout": 10000}, "bloqueado": false}

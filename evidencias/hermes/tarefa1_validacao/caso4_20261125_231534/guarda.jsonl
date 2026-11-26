@@ -1,0 +1,3 @@
+{"ferramenta": "terminal", "entrada": {"command": "head -n 5 dados/vendas.csv"}, "bloqueado": false}
+{"ferramenta": "terminal", "entrada": {"command": "ls -R . | head"}, "bloqueado": true}
+{"ferramenta": "terminal", "entrada": {"command": "ls dados/vendas.csv"}, "bloqueado": true}

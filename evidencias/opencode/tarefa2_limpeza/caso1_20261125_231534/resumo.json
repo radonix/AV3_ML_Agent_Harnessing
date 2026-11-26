@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa2_limpeza",
+  "caso": "caso1",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 5,
+  "tokens_entrada": 11945,
+  "tokens_saida": 247,
+  "tokens_raciocinio": 42,
+  "tokens_cache": 1280,
+  "erros_429": 4,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "51.6",
+  "evidencias": "evidencias/opencode/tarefa2_limpeza/caso1_20261125_231534",
+  "resposta_final": "Linhas: antes 505 | removidas 8 | depois 497 | alteradas 0 | com observação 0 Remoções: data vazia ou inválida 3; duplicata exata 5 Alterações: nenhuma Verificação: 12/12 OK"
+}

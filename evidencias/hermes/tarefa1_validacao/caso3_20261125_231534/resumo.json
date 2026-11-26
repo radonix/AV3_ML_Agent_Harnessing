@@ -1,0 +1,20 @@
+{
+  "plataforma": "hermes",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso3",
+  "codigo_saida": "1",
+  "concluiu": false,
+  "saidas_ok": false,
+  "dados_intactos": true,
+  "requisicoes": 2,
+  "tokens_entrada": 3723,
+  "tokens_saida": 48,
+  "tokens_raciocinio": "",
+  "tokens_cache": 0,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "30.7",
+  "evidencias": "evidencias/hermes/tarefa1_validacao/caso3_20261125_231534",
+  "resposta_final": "Groq didn't answer after 3 attempts — it looks temporarily unavailable. Wait a minute and send /retry, or switch models with /model. To avoid this in future, add a backup provider with `hermes fallbac"
+}

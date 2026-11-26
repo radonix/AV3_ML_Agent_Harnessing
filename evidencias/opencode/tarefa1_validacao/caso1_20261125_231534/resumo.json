@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso1",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 6,
+  "tokens_entrada": 11676,
+  "tokens_saida": 209,
+  "tokens_raciocinio": 403,
+  "tokens_cache": 1792,
+  "erros_429": 4,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 2,
+  "duracao_s": "67.0",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso1_20261125_231534",
+  "resposta_final": "**Saída do script** ``` Linhas: 505 | Tipos de problema: 2 | Avisos: 0 - data | data inválida | 3 - (linha inteira) | linha duplicada (cópia exata de outra) | 5 Relatório: saidas/relatorio_qualidade.m"
+}

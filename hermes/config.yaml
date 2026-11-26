@@ -1,0 +1,31 @@
+# Hermes Agent — configuração do projeto. Não é lida direto daqui: o setup.sh e o run.sh a copiam
+# para o HERMES_HOME do projeto (~/.hermes-av3, fora do repositório e do seu ~/.hermes), trocando
+# __RAIZ__ pelo caminho absoluto do repositório. A chave vem de GROQ_API_KEY no .env do projeto,
+# que o run.sh grava em ~/.hermes-av3/.env (permissão 600); nunca deste arquivo.
+model:
+  provider: groq                # plugin groq-provider (com endpoint "custom", o gpt-oss recebe HTTP 400)
+  default: openai/gpt-oss-20b
+
+toolsets:
+  - terminal                    # sem o toolset "file": nenhum write_file/patch disponível ao modelo
+
+agent:
+  max_turns: 15                 # limite de iterações por turno (padrão do Hermes: 500)
+
+tool_loop_guardrails:
+  hard_stop_enabled: true       # encerra o turno se a mesma chamada falhar repetidamente
+
+memory:
+  memory_enabled: false         # cada execução começa do zero (comparável entre casos)
+  user_profile_enabled: false
+
+# A política de comandos do Hermes é uma lista de NEGAÇÃO (padrões perigosos). A deste projeto
+# é uma lista de PERMISSÃO, aplicada pela guarda abaixo. fail_closed: se a guarda falhar, bloqueia.
+# ATENÇÃO: em modo não interativo, um hook sem consentimento é ignorado em silêncio.
+# Por isso os scripts rodam o Hermes com --accept-hooks (testado: sem ele, a guarda não roda).
+hooks:
+  pre_tool_call:
+    - matcher: ".*"
+      command: "python3 '__RAIZ__/scripts/guarda_hermes.py'"
+      timeout: 10
+      fail_closed: true

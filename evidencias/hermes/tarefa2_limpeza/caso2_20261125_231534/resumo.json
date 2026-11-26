@@ -1,0 +1,20 @@
+{
+  "plataforma": "hermes",
+  "tarefa": "tarefa2_limpeza",
+  "caso": "caso2",
+  "codigo_saida": "124",
+  "concluiu": false,
+  "saidas_ok": false,
+  "dados_intactos": true,
+  "requisicoes": "",
+  "tokens_entrada": "",
+  "tokens_saida": "",
+  "tokens_raciocinio": "",
+  "tokens_cache": "",
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "300.0",
+  "evidencias": "evidencias/hermes/tarefa2_limpeza/caso2_20261125_231534",
+  "resposta_final": ""
+}
