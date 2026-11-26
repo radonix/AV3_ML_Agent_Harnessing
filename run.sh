@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Roda os casos de teste das tarefas no OpenCode e/ou no Hermes Agent,
 # e grava evidências e um CSV de resumo.
+# Roda todas as tarefas em uma plataforma antes de passar para a próxima.
 #
 # Uso:
 #   ./run.sh                                   # todas as tarefas, todos os casos, OpenCode e Hermes
 #   ./run.sh -t tarefa1_validacao -c caso1     # uma tarefa e um caso
 #   ./run.sh -p hermes                         # escolhe as plataformas (opencode, hermes)
+#   ./run.sh -p hermes,opencode                # a ordem em -p é a ordem de execução
 #   ./run.sh -s 90                             # pausa entre execuções (segundos), por causa do limite do Groq
 #   ./run.sh -n                                # só mostra o que faria, sem executar
 #
@@ -30,7 +32,7 @@ while getopts "t:c:p:s:nh" o; do
     p) PLATAFORMAS="$OPTARG" ;;
     s) PAUSA="$OPTARG" ;;
     n) SECO=1 ;;
-    *) sed -n '2,16p' "$0"; exit 0 ;;
+    *) sed -n '2,18p' "$0"; exit 0 ;;
   esac
 done
 
@@ -88,18 +90,19 @@ rodar() {  # plataforma prompt_file evid_dir
 }
 
 echo "Execução $STAMP | tarefas: $TAREFAS | plataformas: $PLATAFORMAS | pausa: ${PAUSA}s"
-for tarefa in $TAREFAS; do
-  arq_casos="casos/$tarefa.txt"
-  prompt="prompts/${tarefa}_plataformas.md"
-  [[ -f "$arq_casos" ]] || { echo "AVISO: $arq_casos não existe; pulando $tarefa"; continue; }
-  [[ -f "$prompt" ]] || { echo "AVISO: $prompt não existe; pulando $tarefa"; continue; }
+# Ordem: todas as tarefas e casos em uma plataforma; só depois passa para a próxima.
+for plat in ${PLATAFORMAS//,/ }; do
+  for tarefa in $TAREFAS; do
+    arq_casos="casos/$tarefa.txt"
+    prompt="prompts/${tarefa}_plataformas.md"
+    [[ -f "$arq_casos" ]] || { echo "AVISO: $arq_casos não existe; pulando $tarefa"; continue; }
+    [[ -f "$prompt" ]] || { echo "AVISO: $prompt não existe; pulando $tarefa"; continue; }
 
-  while IFS='|' read -r caso preparo esperados || [[ -n "$caso" ]]; do
-    caso="$(echo "$caso" | xargs)"; preparo="$(echo "${preparo:-}" | xargs)"; esperados="$(echo "${esperados:-}" | xargs)"
-    [[ -z "$caso" || "$caso" == \#* ]] && continue
-    [[ -n "$CASOS" && " $CASOS " != *" $caso "* ]] && continue
+    while IFS='|' read -r caso preparo esperados || [[ -n "$caso" ]]; do
+      caso="$(echo "$caso" | xargs)"; preparo="$(echo "${preparo:-}" | xargs)"; esperados="$(echo "${esperados:-}" | xargs)"
+      [[ -z "$caso" || "$caso" == \#* ]] && continue
+      [[ -n "$CASOS" && " $CASOS " != *" $caso "* ]] && continue
 
-    for plat in ${PLATAFORMAS//,/ }; do
       dir="evidencias/$plat/$tarefa/${caso}_${STAMP}"
       echo; echo "== $plat | $tarefa | $caso"
       if [[ $SECO -eq 1 ]]; then echo "  preparo: $preparo"; echo "  evidências: $dir"; continue; fi
@@ -127,8 +130,8 @@ for tarefa in $TAREFAS; do
       python3 scripts/coletar_metricas.py --plataforma "$plat" --tarefa "$tarefa" --caso "$caso" \
         --dir "$dir" --csv "$CSV" --codigo "$codigo" --duracao "$duracao" \
         --dados-intactos "$intactos" --esperados "$esperados"
-    done
-  done < "$arq_casos"
+    done < "$arq_casos"
+  done
 done
 
 chmod -R u+w dados 2>/dev/null
