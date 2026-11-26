@@ -1,2 +1,0 @@
-{"ferramenta": "terminal", "entrada": {"command": "head -n 5 dados/vendas.csv"}, "bloqueado": false}
-{"ferramenta": "terminal", "entrada": {"command": "python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md"}, "bloqueado": false}

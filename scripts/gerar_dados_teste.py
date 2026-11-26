@@ -3,15 +3,15 @@
 
 Uso:  python3 scripts/gerar_dados_teste.py caso1 [--destino dados] [--xlsx]
                                                 [--gabarito gabaritos/caso1]
-Casos: caso1 (5 duplicatas + 3 datas inválidas), caso2 (limpa), caso3 (sem coluna
-`vendedor`), caso4 (arquivo vazio), caso6 (vários problemas plantados),
-caso7 (formatos mistos: datas DD/MM/AAAA, "R$ 3.500,00", grafias de região, produto e
-vendedor, valor_total vazio e uma duplicata que só aparece depois de padronizar).
-O caso 5 (gravar em dados/) é um teste de segurança da plataforma, não de dados.
+Casos (mesma numeração em todas as tarefas):
+  caso1  duplicatas e datas inválidas (5 duplicatas exatas + 3 datas inválidas)
+  caso2  vários problemas nos dados (nulos, negativos, grafia de região, total divergente, atípico)
+  caso3  arquivo vazio (0 bytes): as tarefas devem informar o erro e parar
+  caso4  planilha sem erros
 
 --gabarito grava `vendas_limpas.csv` com o resultado ESPERADO da limpeza (Tarefa 2),
 montado a partir da planilha base e do que foi plantado, sem usar limpar_vendas.py.
-Nos casos 3 e 4 a limpeza deve falhar e não há gabarito.
+No caso 3 a limpeza deve falhar e não há gabarito.
 """
 from __future__ import annotations
 
@@ -26,8 +26,6 @@ PRODUTOS = [("Notebook", "Eletrônicos", 3500.0), ("Mouse", "Acessórios", 80.0)
             ("Teclado", "Acessórios", 150.0), ("Monitor", "Eletrônicos", 900.0),
             ("Cadeira", "Móveis", 700.0), ("Mesa", "Móveis", 1200.0)]
 REGIOES = ["SP", "RJ", "MG", "PR", "RS"]
-NOMES_UF = {"SP": "São Paulo", "RJ": "Rio de Janeiro", "MG": "Minas Gerais",
-            "PR": "Paraná", "RS": "Rio Grande do Sul"}
 VENDEDORES = ["Ana", "Bruno", "Carla", "Diego", "Elisa"]
 INICIO = date(2026, 1, 1)
 
@@ -56,12 +54,6 @@ def gerar(caso: str) -> tuple[pd.DataFrame | None, dict]:
             df.at[i, "data"] = v                         # 3 datas inválidas
         return df, {"duplicatas": 5, "datas_invalidas": 3}
     if caso == "caso2":
-        return df, {}
-    if caso == "caso3":
-        return df.drop(columns=["vendedor"]), {"ausentes": ["vendedor"]}
-    if caso == "caso4":
-        return None, {"fatal": True}
-    if caso == "caso6":
         df.loc[[1, 2], "produto"] = ""                   # 2 nulos em produto
         df.loc[[3, 4], "quantidade"] = ""                # 2 nulos em quantidade
         df.at[5, "quantidade"] = "-3"                    # negativos (valor_total coerente)
@@ -76,41 +68,11 @@ def gerar(caso: str) -> tuple[pd.DataFrame | None, dict]:
         df.at[9, "valor_total"] = str(round(9999 * float(df.at[9, "preco_unitario"]), 2))
         return df, {"nulos_produto": 2, "nulos_quantidade": 2, "negativos": 2,
                     "regiao_grafias": 6, "divergencias": 2}
-    if caso == "caso7":
-        for i in range(30):                              # 30 datas em DD/MM/AAAA
-            df.at[i, "data"] = date.fromisoformat(df.at[i, "data"]).strftime("%d/%m/%Y")
-        for i in range(30, 40):                          # 10 linhas com valores "brasileiros"
-            df.at[i, "preco_unitario"] = "R$ " + br(float(df.at[i, "preco_unitario"]))
-            df.at[i, "valor_total"] = br(float(df.at[i, "valor_total"]))
-        uf = {i: df.at[i, "regiao"] for i in range(40, 45)}
-        df.at[40, "regiao"] = f" {uf[40].lower()} "      # 5 grafias de região
-        df.at[41, "regiao"] = NOMES_UF[uf[41]]
-        df.at[42, "regiao"] = sem_acento(NOMES_UF[uf[42]]).lower()
-        df.at[43, "regiao"] = NOMES_UF[uf[43]].upper()
-        df.at[44, "regiao"] = uf[44].lower()
-        df.at[45, "produto"] = df.at[45, "produto"].lower()   # 3 grafias de produto
-        df.at[46, "produto"] = f"  {df.at[46, 'produto']}  "
-        df.at[47, "produto"] = df.at[47, "produto"].upper()
-        df.at[48, "vendedor"] = df.at[48, "vendedor"].lower()  # 1 grafia de vendedor
-        df.at[49, "valor_total"] = ""                     # 1 valor_total vazio
-        copia = df.iloc[[100]].copy()                     # duplicata só após padronizar
-        copia["regiao"] = NOMES_UF[copia.iloc[0]["regiao"]]
-        copia["produto"] = copia.iloc[0]["produto"].upper()
-        df = pd.concat([df, copia], ignore_index=True)
-        return df, {"datas_barra": 30, "valores_br": 10, "regiao_grafias": 5,
-                    "produto_grafias": 3, "vendedor_grafias": 1, "valor_total_vazio": 1,
-                    "duplicata_apos_padronizar": 1}
-    raise SystemExit(f"caso desconhecido: {caso}")
-
-
-def br(x: float) -> str:
-    """3500.0 -> '3.500,00' (formato brasileiro)."""
-    return f"{x:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
-
-
-def sem_acento(s: str) -> str:
-    import unicodedata
-    return "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
+    if caso == "caso3":
+        return None, {"fatal": True}
+    if caso == "caso4":
+        return df, {}
+    raise SystemExit(f"caso desconhecido: {caso} (use caso1, caso2, caso3 ou caso4)")
 
 
 def gabarito(caso: str) -> pd.DataFrame | None:
@@ -120,11 +82,11 @@ def gabarito(caso: str) -> pd.DataFrame | None:
     seguindo as regras fixas documentadas em docs/tarefa2_limpeza.md.
     """
     df = base()
-    if caso in ("caso2", "caso7"):        # caso7: tudo volta ao formato da base;
-        return df                          # a duplicata após padronizar sai
+    if caso == "caso4":                    # planilha sem erros: nada muda
+        return df
     if caso == "caso1":                    # duplicatas saem; 3 datas inválidas: linha removida
         return df.drop(index=[20, 60, 90]).reset_index(drop=True)
-    if caso == "caso6":
+    if caso == "caso2":
         df.loc[[1, 2], "produto"] = "Não informado"      # R8: texto vazio preenchido
         # linhas 3 e 4: quantidade vazia é deduzida (valor_total ÷ preço) -> igual à base
         df.at[5, "quantidade"] = "-3"                    # R7: devolução mantida
@@ -133,7 +95,7 @@ def gabarito(caso: str) -> pd.DataFrame | None:
         df.at[9, "quantidade"] = "9999"                  # R11: atípico mantido
         df.at[9, "valor_total"] = str(round(9999 * float(df.at[9, "preco_unitario"]), 2))
         return df.drop(index=[6]).reset_index(drop=True)  # R7: preço negativo -> removida
-    return None                             # caso3 e caso4: a limpeza deve falhar
+    return None                             # caso3: a limpeza deve falhar
 
 
 def gravar(caso: str, destino: Path, xlsx: bool = False) -> Path:

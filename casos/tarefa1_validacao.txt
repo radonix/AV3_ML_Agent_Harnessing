@@ -1,6 +1,7 @@
-# Casos de teste da Tarefa 1, usados pelo run.sh.
+# Casos de teste da Tarefa 1, usados pelo run.sh (mesma numeração em todas as tarefas).
 # Formato:  nome | comando que prepara dados/ (e saidas/, se a tarefa depender de outra) | arquivos esperados ao final
 # O run.sh esvazia saidas/ antes de cada caso, roda o preparo e depois protege dados/ contra escrita.
+# caso1: duplicatas e datas inválidas | caso2: vários problemas | caso3: arquivo vazio | caso4: sem erros
 caso1 | python3 scripts/gerar_dados_teste.py caso1 | saidas/relatorio_qualidade.md
 caso2 | python3 scripts/gerar_dados_teste.py caso2 | saidas/relatorio_qualidade.md
 caso3 | python3 scripts/gerar_dados_teste.py caso3 | saidas/relatorio_qualidade.md

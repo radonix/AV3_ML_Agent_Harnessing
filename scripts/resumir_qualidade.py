@@ -2,7 +2,7 @@
 """Imprime um resumo compacto do relatório de qualidade da Tarefa 1.
 
 Serve para o agente "ler" o relatório sem colocar o arquivo inteiro no contexto
-(o harness só permite `head -n 5`). Só LÊ; não grava nada.
+(as plataformas só permitem `head -n 5`). Só LÊ; não grava nada.
 
 Uso:
     python3 scripts/resumir_qualidade.py [saidas/relatorio_qualidade.md]

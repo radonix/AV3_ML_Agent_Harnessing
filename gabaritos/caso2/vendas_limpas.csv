@@ -1,14 +1,13 @@
 data,pedido_id,produto,categoria,regiao,vendedor,quantidade,preco_unitario,valor_total
 2026-01-07,PED-00001,Mesa,Móveis,MG,Bruno,2,1200.0,2400.0
-2026-01-27,PED-00002,Mouse,Acessórios,RS,Ana,3,80.0,240.0
-2026-01-09,PED-00003,Cadeira,Móveis,SP,Ana,7,700.0,4900.0
+2026-01-27,PED-00002,Não informado,Acessórios,RS,Ana,3,80.0,240.0
+2026-01-09,PED-00003,Não informado,Móveis,SP,Ana,7,700.0,4900.0
 2026-05-10,PED-00004,Mouse,Acessórios,RS,Ana,4,80.0,320.0
 2026-06-16,PED-00005,Cadeira,Móveis,RS,Diego,4,700.0,2800.0
-2026-05-31,PED-00006,Mouse,Acessórios,MG,Ana,8,80.0,640.0
-2026-03-29,PED-00007,Mouse,Acessórios,MG,Bruno,7,80.0,560.0
+2026-05-31,PED-00006,Mouse,Acessórios,MG,Ana,-3,80.0,-240.0
 2026-01-27,PED-00008,Mouse,Acessórios,SP,Diego,6,80.0,480.0
 2026-03-30,PED-00009,Notebook,Eletrônicos,RS,Carla,6,3500.0,21000.0
-2026-05-18,PED-00010,Notebook,Eletrônicos,SP,Diego,8,3500.0,28000.0
+2026-05-18,PED-00010,Notebook,Eletrônicos,SP,Diego,9999,3500.0,34996500.0
 2026-03-17,PED-00011,Notebook,Eletrônicos,RS,Carla,9,3500.0,31500.0
 2026-06-30,PED-00012,Cadeira,Móveis,SP,Ana,4,700.0,2800.0
 2026-03-16,PED-00013,Mesa,Móveis,SP,Bruno,4,1200.0,4800.0
