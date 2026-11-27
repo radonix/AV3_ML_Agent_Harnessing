@@ -1,0 +1,7 @@
+model:
+  provider: custom              # Ollama pela API compatível com OpenAI
+  default: "__MODELO__"
+  base_url: "__BASE_URL__/v1"
+  api_key: ollama               # o Ollama ignora a chave, mas o campo precisa existir
+  context_length: __CONTEXTO__  # o Hermes recusa janelas abaixo de 64.000 tokens
+  ollama_num_ctx: __CONTEXTO__

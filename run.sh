@@ -8,7 +8,8 @@
 #   ./run.sh -t tarefa1_validacao -c caso1     # uma tarefa e um caso
 #   ./run.sh -p hermes                         # escolhe as plataformas (opencode, hermes)
 #   ./run.sh -p hermes,opencode                # a ordem em -p é a ordem de execução
-#   ./run.sh -s 90                             # pausa entre execuções (segundos), por causa do limite do Groq
+#   ./run.sh -s 90                             # pausa entre execuções (padrão: 0 com Ollama, 70 com Groq)
+#   PROVEDOR=groq ./run.sh                     # usa o Groq em vez do Ollama (padrão)
 #   ./run.sh -n                                # só mostra o que faria, sem executar
 #
 # Para incluir uma tarefa nova, basta criar:
@@ -20,8 +21,7 @@ set -uo pipefail
 RAIZ="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$RAIZ"
 
-TAREFAS=""; CASOS=""; PLATAFORMAS="opencode,hermes"; PAUSA=70; SECO=0
-HERMES_TIMEOUT=300
+TAREFAS=""; CASOS=""; PLATAFORMAS="opencode,hermes"; PAUSA=""; SECO=0
 export HERMES_HOME="${HERMES_HOME_AV3:-$HOME/.hermes-av3}"
 export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$HOME/.hermes/bin:$PATH"
 
@@ -32,15 +32,45 @@ while getopts "t:c:p:s:nh" o; do
     p) PLATAFORMAS="$OPTARG" ;;
     s) PAUSA="$OPTARG" ;;
     n) SECO=1 ;;
-    *) sed -n '2,18p' "$0"; exit 0 ;;
+    *) sed -n '2,19p' "$0"; exit 0 ;;
   esac
 done
 
 # --- ambiente ---------------------------------------------------------------
-if [[ -z "${VIRTUAL_ENV:-}" && -f venv/bin/activate ]]; then source venv/bin/activate; fi
-if [[ -f .env ]]; then set -a; source .env; set +a; fi
-if [[ ( -z "${GROQ_API_KEY:-}" || "$GROQ_API_KEY" == sua_chave_aqui ) && $SECO -eq 0 ]]; then
-  echo "ERRO: GROQ_API_KEY vazia. Copie .env.example para .env e coloque a chave." >&2; exit 1
+if [[ -z "${VIRTUAL_ENV:-}" && -f .venv/bin/activate ]]; then source .venv/bin/activate; fi
+if [[ -f .env ]]; then
+  # o que já veio no ambiente (linha de comando, docker-compose) tem prioridade sobre o .env
+  ambiente="$(export -p | grep -E '^declare -x (PROVEDOR|OLLAMA_[A-Z_]+|GROQ_API_KEY|HERMES_TIMEOUT)=' || true)"
+  set -a; source .env; set +a
+  eval "${ambiente//declare -x/export}"
+fi
+
+PROVEDOR="${PROVEDOR:-ollama}"
+export OLLAMA_MODEL="${OLLAMA_MODEL:-qwen3:8b}"
+export OLLAMA_BASE_URL="${OLLAMA_BASE_URL:-http://localhost:11434}"
+export OLLAMA_CONTEXT_LENGTH="${OLLAMA_CONTEXT_LENGTH:-65536}"
+case "$PROVEDOR" in
+  ollama)
+    MODELO="$OLLAMA_MODEL"; MODELO_OPENCODE="ollama/$MODELO"
+    PAUSA="${PAUSA:-0}"; HERMES_TIMEOUT="${HERMES_TIMEOUT:-600}" ;;   # em CPU o modelo é lento
+  groq)
+    MODELO="openai/gpt-oss-20b"; MODELO_OPENCODE="groq/$MODELO"
+    PAUSA="${PAUSA:-70}"; HERMES_TIMEOUT="${HERMES_TIMEOUT:-300}"
+    if [[ ( -z "${GROQ_API_KEY:-}" || "$GROQ_API_KEY" == sua_chave_aqui ) && $SECO -eq 0 ]]; then
+      echo "ERRO: GROQ_API_KEY vazia. Copie .env.example para .env e coloque a chave." >&2; exit 1
+    fi ;;
+  *) echo "ERRO: PROVEDOR desconhecido: $PROVEDOR (use ollama ou groq)" >&2; exit 1 ;;
+esac
+(( HERMES_TIMEOUT <= 600 )) || { echo "ERRO: HERMES_TIMEOUT não pode passar de 600 s." >&2; exit 1; }
+
+# o Ollama precisa estar no ar e já ter o modelo baixado
+if [[ "$PROVEDOR" == ollama && $SECO -eq 0 ]]; then
+  tags="$(curl -fsS --max-time 10 "$OLLAMA_BASE_URL/api/tags")" \
+    || { echo "ERRO: Ollama não responde em $OLLAMA_BASE_URL." >&2; exit 1; }
+  python3 -c 'import json,sys
+nomes = {m["name"] for m in json.loads(sys.argv[1]).get("models", [])}
+sys.exit(0 if {sys.argv[2], sys.argv[2] + ":latest"} & nomes else 1)' "$tags" "$OLLAMA_MODEL" \
+    || { echo "ERRO: modelo $OLLAMA_MODEL não está no Ollama. Rode: ollama pull $OLLAMA_MODEL" >&2; exit 1; }
 fi
 
 for p in ${PLATAFORMAS//,/ }; do
@@ -52,11 +82,15 @@ done
 
 # HERMES_HOME do projeto: config e chave regravadas a cada execução, para nunca rodar desatualizado.
 if [[ ",$PLATAFORMAS," == *",hermes,"* && $SECO -eq 0 ]]; then
-  [[ -d "$HERMES_HOME/plugins/groq-provider" ]] \
-    || { echo "ERRO: plugin groq-provider ausente em $HERMES_HOME. Rode ./setup.sh." >&2; exit 1; }
-  chmod 700 "$HERMES_HOME"
-  sed "s#__RAIZ__#$RAIZ#g" hermes/config.yaml > "$HERMES_HOME/config.yaml"
-  ( umask 077; printf 'GROQ_API_KEY=%s\n' "$GROQ_API_KEY" > "$HERMES_HOME/.env" )
+  mkdir -p "$HERMES_HOME"; chmod 700 "$HERMES_HOME"
+  bash scripts/config_hermes.sh "$PROVEDOR" "$HERMES_HOME/config.yaml" || exit 1
+  if [[ "$PROVEDOR" == groq ]]; then
+    [[ -d "$HERMES_HOME/plugins/groq-provider" ]] \
+      || { echo "ERRO: plugin groq-provider ausente em $HERMES_HOME. Rode ./setup.sh." >&2; exit 1; }
+    ( umask 077; printf 'GROQ_API_KEY=%s\n' "$GROQ_API_KEY" > "$HERMES_HOME/.env" )
+  else
+    rm -f "$HERMES_HOME/.env"   # não deixa a chave do Groq para trás
+  fi
 fi
 
 if [[ -z "$TAREFAS" ]]; then
@@ -75,7 +109,9 @@ rodar() {  # plataforma prompt_file evid_dir
   local plat="$1" prompt="$2" dir="$3" cod
   case "$plat" in
     opencode)
-      opencode run --format json "$(cat "$prompt")" > "$dir/saida.jsonl" 2> "$dir/stderr.log" ;;
+      # --standalone: servidor próprio, que enxerga o OLLAMA_BASE_URL desta execução
+      opencode run --standalone -m "$MODELO_OPENCODE" --format json "$(cat "$prompt")" \
+        > "$dir/saida.jsonl" 2> "$dir/stderr.log" ;;
     hermes)
       # --accept-hooks é obrigatório: sem ele, em modo não interativo, o Hermes ignora a guarda
       # de comandos (hooks pre_tool_call) sem avisar. -t terminal: só a ferramenta de shell.
@@ -97,7 +133,7 @@ rodar() {  # plataforma prompt_file evid_dir
   esac
 }
 
-echo "Execução $STAMP | tarefas: $TAREFAS | plataformas: $PLATAFORMAS | pausa: ${PAUSA}s"
+echo "Execução $STAMP | modelo: $PROVEDOR/$MODELO | tarefas: $TAREFAS | plataformas: $PLATAFORMAS | pausa: ${PAUSA}s"
 # Ordem: todas as tarefas e casos em uma plataforma; só depois passa para a próxima.
 for plat in ${PLATAFORMAS//,/ }; do
   for tarefa in $TAREFAS; do
@@ -116,7 +152,7 @@ for plat in ${PLATAFORMAS//,/ }; do
       if [[ $SECO -eq 1 ]]; then echo "  preparo: $preparo"; echo "  evidências: $dir"; continue; fi
 
       if [[ $PRIMEIRA -eq 0 && "$PAUSA" -gt 0 ]]; then
-        echo "  aguardando ${PAUSA}s (limite de tokens por minuto do Groq)..."; sleep "$PAUSA"
+        echo "  aguardando ${PAUSA}s entre execuções..."; sleep "$PAUSA"
       fi
       PRIMEIRA=0
 
@@ -136,7 +172,7 @@ for plat in ${PLATAFORMAS//,/ }; do
       [[ "$(hash_dados)" == "$antes" ]] && intactos=1 || intactos=0
       cp -r saidas "$dir/saidas" 2>/dev/null; rm -f "$dir/saidas/.gitkeep"
       python3 scripts/coletar_metricas.py --plataforma "$plat" --tarefa "$tarefa" --caso "$caso" \
-        --dir "$dir" --csv "$CSV" --codigo "$codigo" --duracao "$duracao" \
+        --provedor "$PROVEDOR" --modelo "$MODELO" --dir "$dir" --csv "$CSV" --codigo "$codigo" --duracao "$duracao" \
         --dados-intactos "$intactos" --esperados "$esperados"
     done < "$arq_casos"
   done
@@ -148,7 +184,7 @@ if [[ -f "$CSV" ]]; then
   python3 - "$CSV" <<'PY'
 import csv, sys
 linhas = list(csv.DictReader(open(sys.argv[1], encoding="utf-8")))
-cols = ["plataforma", "tarefa", "caso", "concluiu", "saidas_ok", "dados_intactos", "requisicoes", "tokens_entrada", "erros_429", "erros_413", "bloqueios_ou_exec_falho"]
+cols = ["plataforma", "modelo", "tarefa", "caso", "concluiu", "saidas_ok", "dados_intactos", "requisicoes", "tokens_entrada", "erros_429", "erros_413", "bloqueios_ou_exec_falho"]
 larg = {c: max(len(c), *(len(str(l[c])) for l in linhas)) for c in cols}
 print("  ".join(c.ljust(larg[c]) for c in cols))
 for l in linhas:

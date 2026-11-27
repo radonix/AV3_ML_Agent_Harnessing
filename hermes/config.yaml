@@ -1,10 +1,9 @@
-# Hermes Agent — configuração do projeto. Não é lida direto daqui: o setup.sh e o run.sh a copiam
-# para o HERMES_HOME do projeto (~/.hermes-av3, fora do repositório e do seu ~/.hermes), trocando
-# __RAIZ__ pelo caminho absoluto do repositório. A chave vem de GROQ_API_KEY no .env do projeto,
+# Hermes Agent — configuração do projeto. Não é lida direto daqui: o scripts/config_hermes.sh (usado
+# pelo setup.sh e pelo run.sh) a copia para o HERMES_HOME do projeto (~/.hermes-av3, fora do
+# repositório e do seu ~/.hermes), inserindo o bloco "model" do provedor e trocando __RAIZ__ pelo
+# caminho absoluto do repositório. Com Groq, a chave vem de GROQ_API_KEY no .env do projeto,
 # que o run.sh grava em ~/.hermes-av3/.env (permissão 600); nunca deste arquivo.
-model:
-  provider: groq                # plugin groq-provider (com endpoint "custom", o gpt-oss recebe HTTP 400)
-  default: openai/gpt-oss-20b
+# __BLOCO_MODELO__  (substituído por hermes/modelo_<PROVEDOR>.yaml; ver scripts/config_hermes.sh)
 
 toolsets:
   - terminal                    # sem o toolset "file": nenhum write_file/patch disponível ao modelo

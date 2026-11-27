@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # Prepara o ambiente do projeto em Linux/macOS (no Windows, use WSL ou GitHub Codespaces):
-#   1. venv Python + requirements.txt
+#   1. uv + Python 3.12 + dependências (.venv)
 #   2. OpenCode
 #   3. Hermes Agent + plugin do Groq, num HERMES_HOME só do projeto (não mexe em ~/.hermes)
-#   4. .env a partir do .env.example (a chave é você quem coloca)
+#   4. .env a partir do .env.example (a chave só é necessária com PROVEDOR=groq)
 #   5. registro das versões em evidencias/versoes.txt
 #
 # Uso:  ./setup.sh                  tudo
 #       ./setup.sh --sem-opencode   pula o OpenCode
 #       ./setup.sh --sem-hermes     pula o Hermes
 #
+# O Ollama não é instalado aqui: instale-o no host (ollama.com) ou use o Docker (ver README).
 # O HERMES_HOME do projeto fica em ~/.hermes-av3 (mude com HERMES_HOME_AV3=/outro/caminho).
 set -euo pipefail
 
@@ -21,7 +22,7 @@ for a in "$@"; do
   case "$a" in
     --sem-opencode) OPENCODE=0 ;;
     --sem-hermes) HERMES=0 ;;
-    -h|--help) sed -n '2,15p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,16p' "$0"; exit 0 ;;
     *) echo "opção desconhecida: $a" >&2; exit 1 ;;
   esac
 done
@@ -35,16 +36,13 @@ export HERMES_HOME="${HERMES_HOME_AV3:-$HOME/.hermes-av3}"
 HERMES_MIN="0.21.5"   # o plugin do Groq exige esta versão ou mais nova
 
 # 1. Python ------------------------------------------------------------------
-passo "Python e dependências"
-tem python3 || { echo "ERRO: instale o Python 3.10 ou mais novo." >&2; exit 1; }
-python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)' \
-  || { echo "ERRO: Python 3.10+ necessário (encontrado: $(python3 --version))." >&2; exit 1; }
-[[ -d venv ]] || python3 -m venv venv
+passo "uv, Python 3.12 e dependências"
+tem uv || curl -LsSf https://astral.sh/uv/install.sh | sh
+tem uv || { echo "ERRO: uv instalado, mas fora do PATH. Abra um terminal novo." >&2; exit 1; }
+uv sync --frozen   # baixa o Python 3.12 se for preciso
 # shellcheck disable=SC1091
-source venv/bin/activate
-python -m pip install --upgrade pip -q
-pip install -r requirements.txt -q
-echo "ok: $(python --version), dependências instaladas em venv/"
+source .venv/bin/activate
+echo "ok: $(python --version), dependências instaladas em .venv/"
 
 # 2. OpenCode ----------------------------------------------------------------
 if [[ $OPENCODE -eq 1 ]]; then
@@ -79,7 +77,8 @@ if [[ $HERMES -eq 1 ]]; then
 
     # HERMES_HOME do projeto. O Hermes recusa pasta que outro usuário possa escrever.
     mkdir -p "$HERMES_HOME"; chmod 700 "$HERMES_HOME"
-    sed "s#__RAIZ__#$RAIZ#g" hermes/config.yaml > "$HERMES_HOME/config.yaml"
+    ( set -a; [[ -f .env ]] && source .env; set +a
+      bash scripts/config_hermes.sh "${PROVEDOR:-ollama}" "$HERMES_HOME/config.yaml" )
     echo "HERMES_HOME do projeto: $HERMES_HOME"
 
     echo "plugin do Groq:"
@@ -95,32 +94,20 @@ if [[ $HERMES -eq 1 ]]; then
 fi
 
 # 4. .env --------------------------------------------------------------------
-passo "Chave do Groq"
+passo "Arquivo .env"
 if [[ ! -f .env ]]; then
   cp .env.example .env
-  echo "criado .env: edite e coloque sua GROQ_API_KEY (console.groq.com/keys)."
-elif grep -q 'sua_chave_aqui' .env; then
-  echo "AVISO: .env ainda tem o valor de exemplo; coloque sua chave."
+  echo "criado .env (padrão: Ollama). Para usar o Groq, defina PROVEDOR=groq e GROQ_API_KEY."
 else
-  echo "ok: .env já existe (a chave não é exibida). O run.sh a copia para o HERMES_HOME a cada execução."
+  echo "ok: .env já existe (a chave não é exibida)."
 fi
 grep -qx '.env' .gitignore 2>/dev/null || echo "AVISO: .env não está no .gitignore!"
 
 # 5. versões -----------------------------------------------------------------
 passo "Versões"
-mkdir -p evidencias
-{
-  echo "data: $(date -Iseconds)"
-  echo "sistema: $(uname -srm)"
-  echo "python: $(python --version 2>&1)"
-  if tem opencode; then ov="$(opencode --version 2>&1 || true)"; echo "opencode: ${ov%%$'\n'*}"; fi
-  if tem hermes; then hv="$(hermes --version 2>&1 || true)"; echo "hermes: ${hv%%$'\n'*}"; fi
-  [[ ! -f "$HERMES_HOME/plugins/groq-provider/plugin.yaml" ]] \
-    || echo "groq-provider: $(grep -m1 -E '^version:' "$HERMES_HOME/plugins/groq-provider/plugin.yaml" | awk '{print $2}')"
-} | tee evidencias/versoes.txt
+bash scripts/registrar_versoes.sh
 
 echo
 echo "Pronto. Próximos passos:"
-echo "  1. coloque a chave no .env"
-echo "  2. source venv/bin/activate"
-echo "  3. ./run.sh -t tarefa1_validacao -c caso1     (um teste rápido)"
+echo "  1. com Ollama: ollama pull qwen3:8b   (com Groq: coloque a chave no .env)"
+echo "  2. ./run.sh -t tarefa1_validacao -c caso1     (um teste rápido)"

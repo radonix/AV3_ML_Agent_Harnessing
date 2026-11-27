@@ -1,0 +1,12 @@
+# GPU AMD (ROCm). Requer Linux com o driver amdgpu (/dev/kfd e /dev/dri).
+#   docker compose -f docker-compose.yml -f docker-compose.amd.yml run --rm app
+# Se os grupos "video"/"render" não forem aceitos, use os GIDs do host (getent group video render).
+services:
+  ollama:
+    image: ollama/ollama:0.40.19-rocm
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - ${GID_VIDEO:-video}
+      - ${GID_RENDER:-render}

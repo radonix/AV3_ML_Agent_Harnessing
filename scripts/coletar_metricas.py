@@ -9,7 +9,7 @@ import json
 import re
 from pathlib import Path
 
-CAMPOS = ["plataforma", "tarefa", "caso", "codigo_saida", "concluiu", "saidas_ok", "dados_intactos",
+CAMPOS = ["plataforma", "provedor", "modelo", "tarefa", "caso", "codigo_saida", "concluiu", "saidas_ok", "dados_intactos",
           "requisicoes", "tokens_entrada", "tokens_saida", "tokens_raciocinio", "tokens_cache",
           "erros_429", "erros_413", "bloqueios_ou_exec_falho", "duracao_s", "evidencias", "resposta_final"]
 
@@ -104,7 +104,7 @@ def hermes(d: Path) -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
-    for a in ("plataforma", "tarefa", "caso", "dir", "csv", "codigo", "duracao", "dados_intactos"):
+    for a in ("plataforma", "provedor", "modelo", "tarefa", "caso", "dir", "csv", "codigo", "duracao", "dados_intactos"):
         ap.add_argument(f"--{a.replace('_', '-')}", required=True)
     ap.add_argument("--esperados", default="")
     a = ap.parse_args()
@@ -113,7 +113,7 @@ def main():
     raiz = Path(a.csv).resolve().parents[2]
     esperados = [e for e in a.esperados.split() if e]
     m.update({
-        "plataforma": a.plataforma, "tarefa": a.tarefa, "caso": a.caso, "codigo_saida": a.codigo,
+        "plataforma": a.plataforma, "provedor": a.provedor, "modelo": a.modelo, "tarefa": a.tarefa, "caso": a.caso, "codigo_saida": a.codigo,
         "saidas_ok": all((d / "saidas" / Path(e).relative_to("saidas")).is_file()
                          if e.startswith("saidas/") else (raiz / e).is_file() for e in esperados),
         "dados_intactos": a.dados_intactos == "1", "duracao_s": a.duracao,

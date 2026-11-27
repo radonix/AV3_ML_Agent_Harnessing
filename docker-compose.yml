@@ -1,0 +1,59 @@
+# Orquestração: Ollama (modelo) + app (uv, OpenCode e Hermes). Padrão: CPU.
+# GPU: ver docker-compose.nvidia.yml e docker-compose.amd.yml.
+#
+#   docker compose build
+#   docker compose run --rm app -t tarefa1_validacao -c caso1     (argumentos do run.sh)
+services:
+  ollama:
+    image: ollama/ollama:0.40.19
+    volumes:
+      - ollama-modelos:/root/.ollama
+    mem_limit: ${OLLAMA_MEM_LIMIT:-8g}
+    environment:
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH:-65536}
+      OLLAMA_KEEP_ALIVE: "-1"              # não recarrega o modelo entre os casos
+      OLLAMA_NUM_PARALLEL: "1"             # cada pedido paralelo multiplica o contexto em memória
+      OLLAMA_MAX_LOADED_MODELS: "1"
+      OLLAMA_FLASH_ATTENTION: "1"          # necessário para quantizar o KV cache
+      OLLAMA_KV_CACHE_TYPE: ${OLLAMA_KV_CACHE_TYPE:-q4_0}
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  # Roda uma vez: baixa o modelo para o volume (se já estiver lá, só confere)
+  ollama-pull:
+    image: ollama/ollama:0.40.19
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    command: ["pull", "${OLLAMA_MODEL:-qwen3:8b}"]
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        UID: ${HOST_UID:-1000}
+        GID: ${HOST_GID:-1000}
+    image: av3-agente:local
+    depends_on:
+      ollama-pull:
+        condition: service_completed_successfully
+    environment:
+      PROVEDOR: ${PROVEDOR:-ollama}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:8b}
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH:-65536}
+      OLLAMA_BASE_URL: http://ollama:11434
+    volumes:
+      - .:/app                             # evidências e saídas ficam no host
+      - hermes-home:/home/agente/.hermes-av3
+    init: true
+
+volumes:
+  ollama-modelos:
+  hermes-home:
