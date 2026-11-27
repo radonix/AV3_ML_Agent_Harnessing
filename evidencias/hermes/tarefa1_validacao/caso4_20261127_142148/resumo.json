@@ -1,0 +1,20 @@
+{
+  "plataforma": "hermes",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso4",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 9,
+  "tokens_entrada": 39334,
+  "tokens_saida": 904,
+  "tokens_raciocinio": "",
+  "tokens_cache": 13568,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 1,
+  "duracao_s": "186.1",
+  "evidencias": "evidencias/hermes/tarefa1_validacao/caso4_20261127_142148",
+  "resposta_final": "Linhas: 500 | Tipos de problema: 0 | Avisos: 0 Relatório: saidas/relatorio_qualidade.md"
+}

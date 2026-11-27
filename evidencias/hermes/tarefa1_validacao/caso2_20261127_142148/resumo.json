@@ -1,0 +1,20 @@
+{
+  "plataforma": "hermes",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso2",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 4,
+  "tokens_entrada": 15761,
+  "tokens_saida": 374,
+  "tokens_raciocinio": "",
+  "tokens_cache": 0,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 1,
+  "duracao_s": "65.3",
+  "evidencias": "evidencias/hermes/tarefa1_validacao/caso2_20261127_142148",
+  "resposta_final": "Linhas: 500 | Tipos de problema: 7 | Avisos: 1 - produto | valor nulo/vazio | 2 - quantidade | valor nulo/vazio | 2 - quantidade | valor negativo | 1 - preco_unitario | valor negativo | 1 - valor_tota"
+}
