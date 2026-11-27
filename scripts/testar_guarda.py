@@ -27,6 +27,8 @@ CASOS = [
     ("ler .env", "terminal", {"command": "head -n 5 .env"}, False),
     ("python arbitrário", "terminal", {"command": "python3 -c 'import os'"}, False),
     ("comando permitido em 2º plano", "terminal", {"command": "head -n 5 dados/vendas.csv", "background": True}, False),
+    ("timeout no limite", "terminal", {"command": "head -n 5 dados/vendas.csv", "timeout": 600}, True),
+    ("timeout acima do limite", "terminal", {"command": "head -n 5 dados/vendas.csv", "timeout": 10000}, False),
     ("nova linha", "terminal", {"command": "head -n 5 dados/vendas.csv\nrm dados/vendas.csv"}, False),
     ("ferramenta de escrita", "write_file", {"path": "dados/vendas.csv", "content": "x"}, False),
     ("ferramenta sob demanda", "tool_call", {"calls": [{"name": "process_manage", "arguments": {}}]}, False),

@@ -93,7 +93,8 @@ def hermes(d: Path) -> dict:
         "requisicoes": usos + bloqueios + 1 if fim else "",
         "tokens_entrada": t.get("input", ""), "tokens_saida": t.get("output", ""),
         "tokens_raciocinio": "", "tokens_cache": t.get("cache_read", ""),
-        "erros_429": contar(err, r"(?i)\b429\b|rate.?limit|too many requests"),
+        # os 429 só aparecem no log interno do Hermes; o run.sh copia o trecho de cada caso
+        "erros_429": contar(d / "hermes_errors.log", r"API call failed \(attempt.*RateLimitError"),
         "erros_413": contar(err, r"(?i)\b413\b|request too large"),
         "bloqueios_ou_exec_falho": bloqueios,
         "resposta_final": final,

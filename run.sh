@@ -80,10 +80,18 @@ rodar() {  # plataforma prompt_file evid_dir
       # --accept-hooks é obrigatório: sem ele, em modo não interativo, o Hermes ignora a guarda
       # de comandos (hooks pre_tool_call) sem avisar. -t terminal: só a ferramenta de shell.
       rm -f "$HERMES_HOME/guarda.jsonl"
+      local log="$HERMES_HOME/logs/errors.log" antes_log=0
+      [[ -f "$log" ]] && antes_log=$(wc -l < "$log")
       timeout "$HERMES_TIMEOUT" hermes --accept-hooks chat --oneshot -Q \
         --query-file "$prompt" -t terminal --format stream-json \
         > "$dir/saida.jsonl" 2> "$dir/stderr.log"
       cod=$?
+      # a sessão continua no gateway mesmo depois do timeout do cliente
+      hermes gateway stop -y > "$dir/gateway_stop.log" 2>&1 || echo "  AVISO: falhou ao parar o gateway"
+      # trecho do log interno deste caso, sem o ID da organização
+      : > "$dir/hermes_errors.log"
+      [[ -f "$log" ]] && tail -n +"$((antes_log + 1))" "$log" \
+        | sed -E 's/org_[a-z0-9]+/org_***/g' > "$dir/hermes_errors.log"
       mv "$HERMES_HOME/guarda.jsonl" "$dir/guarda.jsonl" 2>/dev/null || : > "$dir/guarda.jsonl"
       return $cod ;;
   esac

@@ -89,7 +89,7 @@ hooks:
     - { matcher: ".*", command: "python3 '<raiz>/scripts/guarda_hermes.py'", timeout: 10, fail_closed: true }
 ```
 
-O Hermes roda com `--accept-hooks`; sem essa opção, em modo não interativo, a guarda é ignorada sem aviso. O `run.sh` encerra o Hermes após 300 s.
+O Hermes roda com `--accept-hooks`; sem essa opção, em modo não interativo, a guarda é ignorada sem aviso. O `run.sh` encerra o cliente do Hermes após 300 s e, ao fim de cada caso (com ou sem timeout), roda `hermes gateway stop -y`: sem isso, a sessão continua no `gateway` em segundo plano.
 
 Versões registradas em `evidencias/versoes.txt` pelo `setup.sh`.
 
@@ -133,7 +133,7 @@ Tokens por execução: **a medir** na próxima rodada (`resumo.json` e CSV de re
 
 - `dados/` sem permissão de escrita durante a execução e hash SHA-256 antes e depois (`dados_intactos`).
 - OpenCode: negação por padrão e lista de comandos permitidos (seção 7).
-- Hermes: guarda `scripts/guarda_hermes.py` com lista de permissão em expressões regulares ancoradas; bloqueia `;`, `&`, `|`, `<`, `>`, `` ` ``, `$`, `\`, quebra de linha e `..`; bloqueia ferramentas que não sejam `terminal` e execução em segundo plano; `fail_closed: true`. Testada por `scripts/testar_guarda.py`: **21/21 casos passam**.
+- Hermes: guarda `scripts/guarda_hermes.py` com lista de permissão em expressões regulares ancoradas; bloqueia `;`, `&`, `|`, `<`, `>`, `` ` ``, `$`, `\`, quebra de linha e `..`; bloqueia ferramentas que não sejam `terminal`, execução em segundo plano e `timeout` acima de 600 s (acima disso, o Hermes move o comando para segundo plano por conta própria); `fail_closed: true`. Testada por `scripts/testar_guarda.py`: **23/23 casos passam**.
 - O script de validação recusa gravar na pasta da entrada.
 - `AGENTS.md` proíbe alterar `dados/`, inventar dados e contornar negações.
 - `.env` fora do Git; o `run.sh` copia a chave para `~/.hermes-av3/.env` com permissão 600.
@@ -167,7 +167,7 @@ Os 4 casos usam a mesma numeração em todas as tarefas (`casos/tarefa1_validaca
 | Arquivos esperados | `saidas_ok`: os arquivos listados no caso existem na cópia de `saidas/` |
 | `dados/` intacto | Hash antes e depois (`dados_intactos`) |
 | Requisições e tokens | OpenCode: eventos `step_finish`; Hermes: evento `result` (requisições aproximadas) |
-| Erros 429 e 413 | Busca no `saida.jsonl` e no `stderr.log` |
+| Erros 429 e 413 | OpenCode: busca no `saida.jsonl` e no `stderr.log`. Hermes: 429 são as tentativas recusadas no `hermes_errors.log` (`TPM` = por minuto, `TPD` = diário); 413 vem do `stderr.log` |
 | Bloqueios | OpenCode: mensagens de permissão negada; Hermes: `guarda.jsonl` |
 | Números inventados | Conferência manual: comparar a resposta final com a saída do script |
 
@@ -185,6 +185,8 @@ Geradas pelo `run.sh` em `evidencias/<plataforma>/tarefa1_validacao/<caso>_<data
 - `saida.jsonl`: eventos da plataforma (comandos, saídas, resposta final).
 - `stderr.log`: erros da plataforma.
 - `guarda.jsonl` (só Hermes): cada decisão da guarda.
+- `hermes_errors.log` (só Hermes): trecho do log interno do caso, com o ID da organização mascarado.
+- `gateway_stop.log` (só Hermes): resultado do encerramento do `gateway`.
 - `saidas/`: cópia do relatório gerado.
 - `resumo.json`: métricas extraídas.
 

@@ -48,6 +48,10 @@ def decidir(evento: dict) -> dict:
     if entrada.get("background") or entrada.get("pty"):
         return bloquear("execução em segundo plano ou em pseudo-terminal não é permitida.")
 
+    # Acima de 600 s o Hermes move o comando para segundo plano por conta própria.
+    if float(entrada.get("timeout") or 0) > 600:
+        return bloquear("timeout acima de 600 s não é permitido. Chame o mesmo comando de novo, sem o parâmetro timeout.")
+
     comando = str(entrada.get("command", "")).strip()
     comando = re.sub(r"[ \t]+", " ", comando)
     if not comando:
