@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso4",
+  "codigo_saida": "1",
+  "concluiu": false,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 2,
+  "tokens_entrada": 2137,
+  "tokens_saida": 82,
+  "tokens_raciocinio": 84,
+  "tokens_cache": 1792,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "4.4",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso4_20261127_134701",
+  "resposta_final": ""
+}

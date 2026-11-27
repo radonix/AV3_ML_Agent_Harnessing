@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso3",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": false,
+  "dados_intactos": true,
+  "requisicoes": 6,
+  "tokens_entrada": 9114,
+  "tokens_saida": 192,
+  "tokens_raciocinio": 484,
+  "tokens_cache": 3584,
+  "erros_429": 3,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 5,
+  "duracao_s": "42.6",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso3_20261127_134701",
+  "resposta_final": "I’m sorry, but I don’t have permission to read the `dados/` or `scripts/` directories, nor can I execute shell or Python commands in this environment. Consequently, I’m unable to display the output of"
+}
