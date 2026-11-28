@@ -48,6 +48,11 @@ ENV VIRTUAL_ENV=/opt/venv \
     HERMES_HOME_AV3=/home/agente/.hermes-av3 \
     PATH=/opt/venv/bin:/home/agente/.opencode/bin:/home/agente/.local/bin:/usr/local/bin:/usr/bin:/bin
 
+# Um shell de login (bash -l) redefine o PATH em /etc/profile e perderia o venv (e o pandas)
+USER root
+RUN echo 'export PATH="/opt/venv/bin:$PATH"' > /etc/profile.d/venv.sh
+USER agente
+
 COPY --chmod=755 docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 WORKDIR /app
 ENTRYPOINT ["entrypoint.sh"]

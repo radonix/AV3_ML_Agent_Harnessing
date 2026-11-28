@@ -1,0 +1,3 @@
+{"ferramenta": "terminal", "entrada": {"command": "python3 scripts/resumir_qualidade.py saidas/relatorio_qualidade.md", "timeout": 600}, "bloqueado": false}
+{"ferramenta": "terminal", "entrada": {"command": "python3 scripts/limpar_vendas.py dados/vendas.csv -o saidas/vendas_limpas.csv --log saidas/log_limpeza.md", "timeout": 600}, "bloqueado": false}
+{"ferramenta": "terminal", "entrada": {"command": "python3 scripts/verificar_limpeza.py dados/vendas.csv saidas/vendas_limpas.csv saidas/log_limpeza.md", "timeout": 600}, "bloqueado": false}
