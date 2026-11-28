@@ -1,0 +1,22 @@
+{
+  "plataforma": "opencode",
+  "provedor": "ollama",
+  "modelo": "qwen3:8b",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso1",
+  "codigo_saida": "130",
+  "concluiu": false,
+  "saidas_ok": false,
+  "dados_intactos": true,
+  "requisicoes": 0,
+  "tokens_entrada": 0,
+  "tokens_saida": 0,
+  "tokens_raciocinio": 0,
+  "tokens_cache": 0,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "433.2",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso1_20261128_001018",
+  "resposta_final": ""
+}

@@ -1,3 +1,0 @@
-{"ferramenta": "terminal", "entrada": {"command": "ls -R", "workdir": "/workspaces/AV3_ML_Agent_Harnessing"}, "bloqueado": true}
-{"ferramenta": "terminal", "entrada": {"command": "head -n 5 dados/vendas.csv"}, "bloqueado": false}
-{"ferramenta": "terminal", "entrada": {"command": "python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md", "workdir": "/workspaces/AV3_ML_Agent_Harnessing"}, "bloqueado": false}

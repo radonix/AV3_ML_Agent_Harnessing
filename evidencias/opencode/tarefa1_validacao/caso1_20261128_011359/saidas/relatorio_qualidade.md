@@ -1,7 +1,7 @@
 # Relatório de qualidade dos dados
 
 - Arquivo analisado: `dados/vendas.csv`
-- Gerado em: 2026-11-27 14:22
+- Gerado em: 2026-11-28 01:14
 - Gerado por: `validar_planilha.py` (pandas). Todas as contagens vêm do código.
 
 ## Resultado: ❌ 2 tipo(s) de problema encontrado(s), 8 ocorrência(s) no total

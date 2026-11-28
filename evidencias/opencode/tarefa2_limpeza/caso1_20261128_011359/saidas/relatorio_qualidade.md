@@ -1,14 +1,14 @@
 # Relatório de qualidade dos dados
 
 - Arquivo analisado: `dados/vendas.csv`
-- Gerado em: 2026-11-27 14:30
+- Gerado em: 2026-11-28 01:15
 - Gerado por: `validar_planilha.py` (pandas). Todas as contagens vêm do código.
 
-## Resultado: ✅ Nenhum problema encontrado
+## Resultado: ❌ 2 tipo(s) de problema encontrado(s), 8 ocorrência(s) no total
 
 ## 1. Estrutura
 
-- Linhas de dados: **500**
+- Linhas de dados: **505**
 - Colunas (9): `data`, `pedido_id`, `produto`, `categoria`, `regiao`, `vendedor`, `quantidade`, `preco_unitario`, `valor_total`
 
 | Coluna | Tipo inferido | Nulos |
@@ -25,7 +25,10 @@
 
 ## 2. Problemas encontrados
 
-Nenhum problema encontrado.
+| Coluna | Tipo de problema | Quantidade | Exemplos |
+| --- | --- | ---: | --- |
+| `data` | data inválida | 3 | linha 22: '2026-02-30'; linha 62: '31/04/2026'; linha 92: 'abc' |
+| `(linha inteira)` | linha duplicada (cópia exata de outra) | 5 | linha 502 repete a linha 12; linha 503 repete a linha 52; linha 504 repete a linha 102 |
 
 ## Método e premissas
 

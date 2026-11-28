@@ -1,2 +1,0 @@
-{"ferramenta": "terminal", "entrada": {"command": "head -n 5 dados/vendas.csv", "timeout": 10000}, "bloqueado": false}
-{"ferramenta": "terminal", "entrada": {"command": "process_manage poll process_id=proc_cb18920eebff", "timeout": 10000}, "bloqueado": true}

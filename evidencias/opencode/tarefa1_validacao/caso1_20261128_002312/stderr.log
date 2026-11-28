@@ -1,0 +1,2 @@
+received SIGINT again during shutdown; exiting. Still pending:
+  947.3s  child 174 running: /home/agente/.opencode/bin/opencode serve --stdio --port 0
