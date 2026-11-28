@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa2_limpeza",
+  "caso": "caso3",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 2,
+  "tokens_entrada": 4585,
+  "tokens_saida": 115,
+  "tokens_raciocinio": 237,
+  "tokens_cache": 0,
+  "erros_429": 0,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "4.4",
+  "evidencias": "evidencias/opencode/tarefa2_limpeza/caso3_20261127_134701",
+  "resposta_final": "I need to know which test case you want to run (caso1, caso2, caso3, or caso4) so that I can generate the data, validate the sheet, and then perform the cleaning and verification steps as instructed."
+}

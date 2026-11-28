@@ -1,0 +1,2 @@
+plataforma,provedor,modelo,tarefa,caso,codigo_saida,concluiu,saidas_ok,dados_intactos,requisicoes,tokens_entrada,tokens_saida,tokens_raciocinio,tokens_cache,erros_429,erros_413,bloqueios_ou_exec_falho,duracao_s,evidencias,resposta_final
+hermes,groq,openai/gpt-oss-20b,tarefa1_validacao,caso1,0,True,True,True,3,11686,235,,0,1,0,0,36.9,evidencias/hermes/tarefa1_validacao/caso1_20261128_021133,Linhas: 505 | Tipos de problema: 2 | Avisos: 0 - data | data inválida | 3 - (linha inteira) | linha duplicada (cópia exata de outra) | 5 Relatório: saidas/relatorio_qualidade.md

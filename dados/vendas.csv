@@ -1,54 +1,54 @@
 data,pedido_id,produto,categoria,regiao,vendedor,quantidade,preco_unitario,valor_total
-07/01/2026,PED-00001,Mesa,Móveis,MG,Bruno,2,1200.0,2400.0
-27/01/2026,PED-00002,Mouse,Acessórios,RS,Ana,3,80.0,240.0
-09/01/2026,PED-00003,Cadeira,Móveis,SP,Ana,7,700.0,4900.0
-10/05/2026,PED-00004,Mouse,Acessórios,RS,Ana,4,80.0,320.0
-16/06/2026,PED-00005,Cadeira,Móveis,RS,Diego,4,700.0,2800.0
-31/05/2026,PED-00006,Mouse,Acessórios,MG,Ana,8,80.0,640.0
-29/03/2026,PED-00007,Mouse,Acessórios,MG,Bruno,7,80.0,560.0
-27/01/2026,PED-00008,Mouse,Acessórios,SP,Diego,6,80.0,480.0
-30/03/2026,PED-00009,Notebook,Eletrônicos,RS,Carla,6,3500.0,21000.0
-18/05/2026,PED-00010,Notebook,Eletrônicos,SP,Diego,8,3500.0,28000.0
-17/03/2026,PED-00011,Notebook,Eletrônicos,RS,Carla,9,3500.0,31500.0
-30/06/2026,PED-00012,Cadeira,Móveis,SP,Ana,4,700.0,2800.0
-16/03/2026,PED-00013,Mesa,Móveis,SP,Bruno,4,1200.0,4800.0
-13/03/2026,PED-00014,Notebook,Eletrônicos,PR,Carla,7,3500.0,24500.0
-01/04/2026,PED-00015,Mouse,Acessórios,RJ,Carla,6,80.0,480.0
-05/06/2026,PED-00016,Mesa,Móveis,RJ,Elisa,2,1200.0,2400.0
-11/02/2026,PED-00017,Mesa,Móveis,PR,Diego,4,1200.0,4800.0
-26/02/2026,PED-00018,Teclado,Acessórios,MG,Ana,9,150.0,1350.0
-22/03/2026,PED-00019,Mouse,Acessórios,PR,Carla,1,80.0,80.0
-26/05/2026,PED-00020,Notebook,Eletrônicos,MG,Bruno,4,3500.0,14000.0
-12/04/2026,PED-00021,Mesa,Móveis,PR,Bruno,8,1200.0,9600.0
-05/03/2026,PED-00022,Teclado,Acessórios,RS,Elisa,3,150.0,450.0
-20/04/2026,PED-00023,Teclado,Acessórios,RS,Diego,10,150.0,1500.0
-05/02/2026,PED-00024,Teclado,Acessórios,RS,Diego,4,150.0,600.0
-29/01/2026,PED-00025,Notebook,Eletrônicos,RJ,Bruno,1,3500.0,3500.0
-02/06/2026,PED-00026,Mesa,Móveis,SP,Diego,7,1200.0,8400.0
-30/04/2026,PED-00027,Monitor,Eletrônicos,RS,Carla,10,900.0,9000.0
-24/06/2026,PED-00028,Cadeira,Móveis,SP,Elisa,1,700.0,700.0
-29/01/2026,PED-00029,Teclado,Acessórios,MG,Diego,6,150.0,900.0
-01/01/2026,PED-00030,Mouse,Acessórios,MG,Elisa,8,80.0,640.0
-2026-01-28,PED-00031,Mouse,Acessórios,MG,Elisa,9,"R$ 80,00","720,00"
-2026-02-09,PED-00032,Cadeira,Móveis,MG,Bruno,4,"R$ 700,00","2.800,00"
-2026-01-01,PED-00033,Cadeira,Móveis,RS,Carla,9,"R$ 700,00","6.300,00"
-2026-01-29,PED-00034,Monitor,Eletrônicos,MG,Carla,1,"R$ 900,00","900,00"
-2026-03-03,PED-00035,Mouse,Acessórios,RS,Ana,1,"R$ 80,00","80,00"
-2026-01-18,PED-00036,Notebook,Eletrônicos,RS,Bruno,8,"R$ 3.500,00","28.000,00"
-2026-05-21,PED-00037,Mouse,Acessórios,RJ,Carla,8,"R$ 80,00","640,00"
-2026-04-19,PED-00038,Cadeira,Móveis,RJ,Elisa,10,"R$ 700,00","7.000,00"
-2026-03-21,PED-00039,Mesa,Móveis,PR,Carla,4,"R$ 1.200,00","4.800,00"
-2026-04-26,PED-00040,Monitor,Eletrônicos,SP,Bruno,9,"R$ 900,00","8.100,00"
-2026-03-28,PED-00041,Mouse,Acessórios, sp ,Elisa,2,80.0,160.0
-2026-05-31,PED-00042,Cadeira,Móveis,Rio de Janeiro,Ana,4,700.0,2800.0
-2026-02-28,PED-00043,Notebook,Eletrônicos,sao paulo,Ana,1,3500.0,3500.0
-2026-05-12,PED-00044,Teclado,Acessórios,RIO DE JANEIRO,Carla,2,150.0,300.0
-2026-02-24,PED-00045,Mesa,Móveis,rs,Bruno,8,1200.0,9600.0
-2026-05-28,PED-00046,mesa,Móveis,PR,Bruno,10,1200.0,12000.0
-2026-02-18,PED-00047,  Monitor  ,Eletrônicos,SP,Ana,7,900.0,6300.0
-2026-04-01,PED-00048,MESA,Móveis,PR,Diego,7,1200.0,8400.0
-2026-06-22,PED-00049,Monitor,Eletrônicos,SP,ana,1,900.0,900.0
-2026-01-28,PED-00050,Monitor,Eletrônicos,RJ,Bruno,6,900.0,
+2026-01-07,PED-00001,Mesa,Móveis,MG,Bruno,2,1200.0,2400.0
+2026-01-27,PED-00002,Mouse,Acessórios,RS,Ana,3,80.0,240.0
+2026-01-09,PED-00003,Cadeira,Móveis,SP,Ana,7,700.0,4900.0
+2026-05-10,PED-00004,Mouse,Acessórios,RS,Ana,4,80.0,320.0
+2026-06-16,PED-00005,Cadeira,Móveis,RS,Diego,4,700.0,2800.0
+2026-05-31,PED-00006,Mouse,Acessórios,MG,Ana,8,80.0,640.0
+2026-03-29,PED-00007,Mouse,Acessórios,MG,Bruno,7,80.0,560.0
+2026-01-27,PED-00008,Mouse,Acessórios,SP,Diego,6,80.0,480.0
+2026-03-30,PED-00009,Notebook,Eletrônicos,RS,Carla,6,3500.0,21000.0
+2026-05-18,PED-00010,Notebook,Eletrônicos,SP,Diego,8,3500.0,28000.0
+2026-03-17,PED-00011,Notebook,Eletrônicos,RS,Carla,9,3500.0,31500.0
+2026-06-30,PED-00012,Cadeira,Móveis,SP,Ana,4,700.0,2800.0
+2026-03-16,PED-00013,Mesa,Móveis,SP,Bruno,4,1200.0,4800.0
+2026-03-13,PED-00014,Notebook,Eletrônicos,PR,Carla,7,3500.0,24500.0
+2026-04-01,PED-00015,Mouse,Acessórios,RJ,Carla,6,80.0,480.0
+2026-06-05,PED-00016,Mesa,Móveis,RJ,Elisa,2,1200.0,2400.0
+2026-02-11,PED-00017,Mesa,Móveis,PR,Diego,4,1200.0,4800.0
+2026-02-26,PED-00018,Teclado,Acessórios,MG,Ana,9,150.0,1350.0
+2026-03-22,PED-00019,Mouse,Acessórios,PR,Carla,1,80.0,80.0
+2026-05-26,PED-00020,Notebook,Eletrônicos,MG,Bruno,4,3500.0,14000.0
+2026-02-30,PED-00021,Mesa,Móveis,PR,Bruno,8,1200.0,9600.0
+2026-03-05,PED-00022,Teclado,Acessórios,RS,Elisa,3,150.0,450.0
+2026-04-20,PED-00023,Teclado,Acessórios,RS,Diego,10,150.0,1500.0
+2026-02-05,PED-00024,Teclado,Acessórios,RS,Diego,4,150.0,600.0
+2026-01-29,PED-00025,Notebook,Eletrônicos,RJ,Bruno,1,3500.0,3500.0
+2026-06-02,PED-00026,Mesa,Móveis,SP,Diego,7,1200.0,8400.0
+2026-04-30,PED-00027,Monitor,Eletrônicos,RS,Carla,10,900.0,9000.0
+2026-06-24,PED-00028,Cadeira,Móveis,SP,Elisa,1,700.0,700.0
+2026-01-29,PED-00029,Teclado,Acessórios,MG,Diego,6,150.0,900.0
+2026-01-01,PED-00030,Mouse,Acessórios,MG,Elisa,8,80.0,640.0
+2026-01-28,PED-00031,Mouse,Acessórios,MG,Elisa,9,80.0,720.0
+2026-02-09,PED-00032,Cadeira,Móveis,MG,Bruno,4,700.0,2800.0
+2026-01-01,PED-00033,Cadeira,Móveis,RS,Carla,9,700.0,6300.0
+2026-01-29,PED-00034,Monitor,Eletrônicos,MG,Carla,1,900.0,900.0
+2026-03-03,PED-00035,Mouse,Acessórios,RS,Ana,1,80.0,80.0
+2026-01-18,PED-00036,Notebook,Eletrônicos,RS,Bruno,8,3500.0,28000.0
+2026-05-21,PED-00037,Mouse,Acessórios,RJ,Carla,8,80.0,640.0
+2026-04-19,PED-00038,Cadeira,Móveis,RJ,Elisa,10,700.0,7000.0
+2026-03-21,PED-00039,Mesa,Móveis,PR,Carla,4,1200.0,4800.0
+2026-04-26,PED-00040,Monitor,Eletrônicos,SP,Bruno,9,900.0,8100.0
+2026-03-28,PED-00041,Mouse,Acessórios,SP,Elisa,2,80.0,160.0
+2026-05-31,PED-00042,Cadeira,Móveis,RJ,Ana,4,700.0,2800.0
+2026-02-28,PED-00043,Notebook,Eletrônicos,SP,Ana,1,3500.0,3500.0
+2026-05-12,PED-00044,Teclado,Acessórios,RJ,Carla,2,150.0,300.0
+2026-02-24,PED-00045,Mesa,Móveis,RS,Bruno,8,1200.0,9600.0
+2026-05-28,PED-00046,Mesa,Móveis,PR,Bruno,10,1200.0,12000.0
+2026-02-18,PED-00047,Monitor,Eletrônicos,SP,Ana,7,900.0,6300.0
+2026-04-01,PED-00048,Mesa,Móveis,PR,Diego,7,1200.0,8400.0
+2026-06-22,PED-00049,Monitor,Eletrônicos,SP,Ana,1,900.0,900.0
+2026-01-28,PED-00050,Monitor,Eletrônicos,RJ,Bruno,6,900.0,5400.0
 2026-04-25,PED-00051,Mouse,Acessórios,RJ,Diego,9,80.0,720.0
 2026-04-29,PED-00052,Mouse,Acessórios,RJ,Ana,5,80.0,400.0
 2026-01-26,PED-00053,Monitor,Eletrônicos,SP,Elisa,9,900.0,8100.0
@@ -59,7 +59,7 @@ data,pedido_id,produto,categoria,regiao,vendedor,quantidade,preco_unitario,valor
 2026-03-17,PED-00058,Mouse,Acessórios,RJ,Ana,4,80.0,320.0
 2026-01-16,PED-00059,Cadeira,Móveis,MG,Ana,9,700.0,6300.0
 2026-05-03,PED-00060,Notebook,Eletrônicos,RS,Elisa,10,3500.0,35000.0
-2026-05-11,PED-00061,Mouse,Acessórios,SP,Bruno,1,80.0,80.0
+31/04/2026,PED-00061,Mouse,Acessórios,SP,Bruno,1,80.0,80.0
 2026-01-18,PED-00062,Notebook,Eletrônicos,RJ,Diego,10,3500.0,35000.0
 2026-03-05,PED-00063,Notebook,Eletrônicos,RS,Elisa,10,3500.0,35000.0
 2026-01-21,PED-00064,Notebook,Eletrônicos,PR,Elisa,10,3500.0,35000.0
@@ -89,7 +89,7 @@ data,pedido_id,produto,categoria,regiao,vendedor,quantidade,preco_unitario,valor
 2026-04-28,PED-00088,Mouse,Acessórios,MG,Carla,4,80.0,320.0
 2026-01-07,PED-00089,Mouse,Acessórios,RJ,Diego,4,80.0,320.0
 2026-01-18,PED-00090,Teclado,Acessórios,MG,Carla,5,150.0,750.0
-2026-04-13,PED-00091,Mesa,Móveis,RS,Carla,9,1200.0,10800.0
+abc,PED-00091,Mesa,Móveis,RS,Carla,9,1200.0,10800.0
 2026-03-08,PED-00092,Notebook,Eletrônicos,RJ,Elisa,2,3500.0,7000.0
 2026-01-28,PED-00093,Teclado,Acessórios,RS,Diego,1,150.0,150.0
 2026-04-22,PED-00094,Teclado,Acessórios,RS,Elisa,6,150.0,900.0
@@ -499,4 +499,8 @@ data,pedido_id,produto,categoria,regiao,vendedor,quantidade,preco_unitario,valor
 2026-06-30,PED-00498,Monitor,Eletrônicos,MG,Ana,9,900.0,8100.0
 2026-04-05,PED-00499,Mesa,Móveis,RS,Bruno,5,1200.0,6000.0
 2026-05-03,PED-00500,Mouse,Acessórios,RJ,Diego,3,80.0,240.0
-2026-04-18,PED-00101,MOUSE,Acessórios,Paraná,Bruno,4,80.0,320.0
+2026-03-17,PED-00011,Notebook,Eletrônicos,RS,Carla,9,3500.0,31500.0
+2026-04-25,PED-00051,Mouse,Acessórios,RJ,Diego,9,80.0,720.0
+2026-04-18,PED-00101,Mouse,Acessórios,PR,Bruno,4,80.0,320.0
+2026-04-29,PED-00151,Monitor,Eletrônicos,RS,Elisa,4,900.0,3600.0
+2026-04-03,PED-00201,Mouse,Acessórios,RS,Diego,9,80.0,720.0

@@ -1,0 +1,3 @@
+model:
+  provider: groq                # plugin groq-provider (com endpoint "custom", o gpt-oss recebe HTTP 400)
+  default: openai/gpt-oss-20b

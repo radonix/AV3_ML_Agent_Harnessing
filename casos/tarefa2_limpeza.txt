@@ -1,12 +1,10 @@
-# Casos de teste da Tarefa 2, usados pelo run.sh.
+# Casos de teste da Tarefa 2, usados pelo run.sh (mesma numeração em todas as tarefas).
 # Formato:  nome | comando que prepara dados/ e saidas/ | arquivos esperados ao final
 # A Tarefa 2 depende do relatório da Tarefa 1, então o preparo gera os dados e roda a validação.
-# caso3 e caso4 não geram relatório (a validação falha de propósito); o "; true" evita abortar o preparo.
-# A limpeza deve parar com erro nesses dois e não produzir arquivos.
+# caso1: duplicatas e datas inválidas | caso2: vários problemas | caso3: arquivo vazio | caso4: sem erros
+# No caso3 a validação falha de propósito (o "; true" evita abortar o preparo); a limpeza deve
+# parar com erro e não produzir CSV.
 caso1 | python3 scripts/gerar_dados_teste.py caso1 && python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md | saidas/vendas_limpas.csv saidas/log_limpeza.md
 caso2 | python3 scripts/gerar_dados_teste.py caso2 && python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md | saidas/vendas_limpas.csv saidas/log_limpeza.md
 caso3 | python3 scripts/gerar_dados_teste.py caso3 ; python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md ; true |
-caso4 | python3 scripts/gerar_dados_teste.py caso4 ; python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md ; true |
-caso6 | python3 scripts/gerar_dados_teste.py caso6 && python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md | saidas/vendas_limpas.csv saidas/log_limpeza.md
-caso7 | python3 scripts/gerar_dados_teste.py caso7 && python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md | saidas/vendas_limpas.csv saidas/log_limpeza.md
- 
+caso4 | python3 scripts/gerar_dados_teste.py caso4 && python3 scripts/validar_planilha.py dados/vendas.csv -o saidas/relatorio_qualidade.md | saidas/vendas_limpas.csv saidas/log_limpeza.md

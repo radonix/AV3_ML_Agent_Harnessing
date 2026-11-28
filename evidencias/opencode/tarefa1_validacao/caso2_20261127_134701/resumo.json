@@ -1,0 +1,20 @@
+{
+  "plataforma": "opencode",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso2",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 4,
+  "tokens_entrada": 9891,
+  "tokens_saida": 1175,
+  "tokens_raciocinio": 197,
+  "tokens_cache": 0,
+  "erros_429": 1,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "31.0",
+  "evidencias": "evidencias/opencode/tarefa1_validacao/caso2_20261127_134701",
+  "resposta_final": "**Saída do script de validação** ```text Linhas: 500 | Tipos de problema: 7 | Avisos: 1 - produto | valor nulo/vazio | 2 - quantidade | valor nulo/vazio | 2 - quantidade | valor negativo | 1 - preco_u"
+}

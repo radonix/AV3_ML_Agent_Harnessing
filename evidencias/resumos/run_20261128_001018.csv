@@ -1,0 +1,2 @@
+plataforma,provedor,modelo,tarefa,caso,codigo_saida,concluiu,saidas_ok,dados_intactos,requisicoes,tokens_entrada,tokens_saida,tokens_raciocinio,tokens_cache,erros_429,erros_413,bloqueios_ou_exec_falho,duracao_s,evidencias,resposta_final
+opencode,ollama,qwen3:8b,tarefa1_validacao,caso1,130,False,False,True,0,0,0,0,0,0,0,0,433.2,evidencias/opencode/tarefa1_validacao/caso1_20261128_001018,

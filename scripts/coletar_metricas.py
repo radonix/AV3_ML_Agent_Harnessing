@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extrai métricas de uma execução (harness, OpenCode ou OpenClaw) e acrescenta uma linha ao CSV de resumo.
+"""Extrai métricas de uma execução (OpenCode ou Hermes Agent) e acrescenta uma linha ao CSV de resumo.
 
 Chamado pelo run.sh; não precisa ser usado à mão.
 """
@@ -9,7 +9,7 @@ import json
 import re
 from pathlib import Path
 
-CAMPOS = ["plataforma", "tarefa", "caso", "codigo_saida", "concluiu", "saidas_ok", "dados_intactos",
+CAMPOS = ["plataforma", "provedor", "modelo", "tarefa", "caso", "codigo_saida", "concluiu", "saidas_ok", "dados_intactos",
           "requisicoes", "tokens_entrada", "tokens_saida", "tokens_raciocinio", "tokens_cache",
           "erros_429", "erros_413", "bloqueios_ou_exec_falho", "duracao_s", "evidencias", "resposta_final"]
 
@@ -66,46 +66,54 @@ def opencode(d: Path) -> dict:
     return m
 
 
-def openclaw(d: Path) -> dict:
-    j = ler_json(d / "saida.json")
-    u = j.get("usage", {}) or {}
+def hermes(d: Path) -> dict:
+    """Lê o --format stream-json do Hermes (um evento JSON por linha) e o log da guarda.
+
+    O Hermes não emite um evento por requisição ao modelo. Cada chamada de ferramenta vem de
+    uma requisição e a resposta final de mais uma, então requisicoes = tool_use + bloqueios + 1.
+    É aproximado: não conta novas tentativas após 429 e conta duas vezes chamadas paralelas.
+    Bloqueios da guarda não aparecem no stream-json, por isso vêm de guarda.jsonl.
+    """
+    eventos = []
+    arq = d / "saida.jsonl"
+    if arq.is_file():
+        for linha in arq.read_text(encoding="utf-8", errors="replace").splitlines():
+            try:
+                eventos.append(json.loads(linha))
+            except json.JSONDecodeError:
+                continue
+    usos = sum(1 for e in eventos if e.get("type") == "tool_use")
+    fim = next((e for e in reversed(eventos) if e.get("type") == "result"), {})
+    t = fim.get("tokens", {}) or {}
+    guarda = d / "guarda.jsonl"
+    bloqueios = contar(guarda, r'"bloqueado": true')
     err = d / "stderr.log"
-    reqs = [int(x) for x in re.findall(r"requestNumber=(\d+)", err.read_text(errors="replace"))] if err.is_file() else []
+    final = fim.get("text", "") or fim.get("error", "")
     return {
-        "requisicoes": max(reqs) if reqs else "",
-        "tokens_entrada": u.get("input", ""), "tokens_saida": u.get("output", ""),
-        "tokens_raciocinio": u.get("reasoningTokens", ""), "tokens_cache": u.get("cacheRead", ""),
-        "erros_429": contar(err, r"model-fetch.*status=429"),
-        "erros_413": contar(err, r"model-fetch.*status=413"),
-        "bloqueios_ou_exec_falho": contar(err, r"\bexec failed"),
-        "resposta_final": j.get("final", "") or ((j.get("error") or {}).get("message", "")),
-        "concluiu": bool(j.get("ok")),
-    }
-
-
-def harness(d: Path) -> dict:
-    j = ler_json(d / "metricas.json")
-    return {
-        "requisicoes": j.get("requisicoes", ""), "tokens_entrada": j.get("tokens_entrada", ""),
-        "tokens_saida": j.get("tokens_saida", ""), "tokens_raciocinio": "", "tokens_cache": "",
-        "erros_429": j.get("erros_429", ""), "erros_413": "",
-        "bloqueios_ou_exec_falho": j.get("bloqueios", ""),
-        "resposta_final": j.get("final", ""), "concluiu": j.get("parada") == "concluido",
+        "requisicoes": usos + bloqueios + 1 if fim else "",
+        "tokens_entrada": t.get("input", ""), "tokens_saida": t.get("output", ""),
+        "tokens_raciocinio": "", "tokens_cache": t.get("cache_read", ""),
+        # os 429 só aparecem no log interno do Hermes; o run.sh copia o trecho de cada caso
+        "erros_429": contar(d / "hermes_errors.log", r"API call failed \(attempt.*RateLimitError"),
+        "erros_413": contar(err, r"(?i)\b413\b|request too large"),
+        "bloqueios_ou_exec_falho": bloqueios,
+        "resposta_final": final,
+        "concluiu": fim.get("exit_code") == 0 and bool(fim.get("text")),
     }
 
 
 def main():
     ap = argparse.ArgumentParser()
-    for a in ("plataforma", "tarefa", "caso", "dir", "csv", "codigo", "duracao", "dados_intactos"):
+    for a in ("plataforma", "provedor", "modelo", "tarefa", "caso", "dir", "csv", "codigo", "duracao", "dados_intactos"):
         ap.add_argument(f"--{a.replace('_', '-')}", required=True)
     ap.add_argument("--esperados", default="")
     a = ap.parse_args()
     d = Path(a.dir).resolve()
-    m = {"opencode": opencode, "openclaw": openclaw, "harness": harness}[a.plataforma](d)
+    m = {"opencode": opencode, "hermes": hermes}[a.plataforma](d)
     raiz = Path(a.csv).resolve().parents[2]
     esperados = [e for e in a.esperados.split() if e]
     m.update({
-        "plataforma": a.plataforma, "tarefa": a.tarefa, "caso": a.caso, "codigo_saida": a.codigo,
+        "plataforma": a.plataforma, "provedor": a.provedor, "modelo": a.modelo, "tarefa": a.tarefa, "caso": a.caso, "codigo_saida": a.codigo,
         "saidas_ok": all((d / "saidas" / Path(e).relative_to("saidas")).is_file()
                          if e.startswith("saidas/") else (raiz / e).is_file() for e in esperados),
         "dados_intactos": a.dados_intactos == "1", "duracao_s": a.duracao,

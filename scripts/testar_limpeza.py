@@ -25,12 +25,10 @@ SAIDA = RAIZ / "saidas" / "testes_limpeza"
 
 # caso: (código esperado da limpeza, linhas antes, linhas depois, removidas, alteradas)
 ESPERADO = {
-    "caso1": (0, 505, 497, 8, 0),
-    "caso2": (0, 500, 500, 0, 0),
-    "caso3": (2, None, None, None, None),
-    "caso4": (2, None, None, None, None),
-    "caso6": (0, 500, 499, 1, 10),
-    "caso7": (0, 501, 500, 1, 50),
+    "caso1": (0, 505, 497, 8, 0),          # duplicatas e datas inválidas
+    "caso2": (0, 500, 499, 1, 10),         # vários problemas nos dados
+    "caso3": (2, None, None, None, None),  # arquivo vazio
+    "caso4": (0, 500, 500, 0, 0),          # sem erros
 }
 
 
@@ -57,7 +55,7 @@ def main() -> int:
             out.mkdir(parents=True, exist_ok=True)
             rel, csv, log = out / "relatorio_qualidade.md", out / "vendas_limpas.csv", out / "log_limpeza.md"
             rodar("scripts/validar_planilha.py", entrada / "vendas.csv", "-o", rel)
-            if caso == "caso4":                    # CSV antigo deve ser apagado no erro
+            if caso == "caso3":                    # CSV antigo deve ser apagado no erro
                 csv.write_text("antigo\n", encoding="utf-8")
             r = rodar("scripts/limpar_vendas.py", entrada / "vendas.csv", "-o", csv,
                       "--log", log, "--relatorio", rel)

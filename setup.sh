@@ -1,25 +1,28 @@
 #!/usr/bin/env bash
 # Prepara o ambiente do projeto em Linux/macOS (no Windows, use WSL ou GitHub Codespaces):
-#   1. venv Python + requirements.txt
-#   2. OpenCode e OpenClaw (+ plugin do Groq para o OpenClaw)
-#   3. .env a partir do .env.example (a chave é você quem coloca)
-#   4. allowlist de comandos do OpenClaw (python3 e head)
+#   1. uv + Python 3.12 + dependências (.venv)
+#   2. OpenCode
+#   3. Hermes Agent + plugin do Groq, num HERMES_HOME só do projeto (não mexe em ~/.hermes)
+#   4. .env a partir do .env.example (a chave só é necessária com PROVEDOR=groq)
 #   5. registro das versões em evidencias/versoes.txt
 #
 # Uso:  ./setup.sh                  tudo
 #       ./setup.sh --sem-opencode   pula o OpenCode
-#       ./setup.sh --sem-openclaw   pula o OpenClaw
+#       ./setup.sh --sem-hermes     pula o Hermes
+#
+# O Ollama não é instalado aqui: instale-o no host (ollama.com) ou use o Docker (ver README).
+# O HERMES_HOME do projeto fica em ~/.hermes-av3 (mude com HERMES_HOME_AV3=/outro/caminho).
 set -euo pipefail
 
 RAIZ="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$RAIZ"
 
-OPENCODE=1; OPENCLAW=1
+OPENCODE=1; HERMES=1
 for a in "$@"; do
   case "$a" in
     --sem-opencode) OPENCODE=0 ;;
-    --sem-openclaw) OPENCLAW=0 ;;
-    -h|--help) sed -n '2,13p' "$0"; exit 0 ;;
+    --sem-hermes) HERMES=0 ;;
+    -h|--help) sed -n '2,16p' "$0"; exit 0 ;;
     *) echo "opção desconhecida: $a" >&2; exit 1 ;;
   esac
 done
@@ -28,19 +31,18 @@ passo() { echo; echo "==> $*"; }
 tem() { command -v "$1" >/dev/null 2>&1; }
 
 # Caminhos onde os instaladores costumam colocar os binários (só acrescenta ao PATH desta sessão)
-export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.opencode/bin:$HOME/.local/bin:$HOME/.hermes/bin:$PATH"
+export HERMES_HOME="${HERMES_HOME_AV3:-$HOME/.hermes-av3}"
+HERMES_MIN="0.21.5"   # o plugin do Groq exige esta versão ou mais nova
 
 # 1. Python ------------------------------------------------------------------
-passo "Python e dependências"
-tem python3 || { echo "ERRO: instale o Python 3.10 ou mais novo." >&2; exit 1; }
-python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)' \
-  || { echo "ERRO: Python 3.10+ necessário (encontrado: $(python3 --version))." >&2; exit 1; }
-[[ -d venv ]] || python3 -m venv venv
+passo "uv, Python 3.12 e dependências"
+tem uv || curl -LsSf https://astral.sh/uv/install.sh | sh
+tem uv || { echo "ERRO: uv instalado, mas fora do PATH. Abra um terminal novo." >&2; exit 1; }
+uv sync --frozen   # baixa o Python 3.12 se for preciso
 # shellcheck disable=SC1091
-source venv/bin/activate
-python -m pip install --upgrade pip -q
-pip install -r requirements.txt -q
-echo "ok: $(python --version), dependências instaladas em venv/"
+source .venv/bin/activate
+echo "ok: $(python --version), dependências instaladas em .venv/"
 
 # 2. OpenCode ----------------------------------------------------------------
 if [[ $OPENCODE -eq 1 ]]; then
@@ -54,38 +56,48 @@ if [[ $OPENCODE -eq 1 ]]; then
   fi
 fi
 
-# 3. OpenClaw ----------------------------------------------------------------
-if [[ $OPENCLAW -eq 1 ]]; then
-  passo "OpenClaw"
-  if tem openclaw; then
-    echo "já instalado: $(openclaw --version 2>/dev/null | head -1)"
-  else
-    # O OpenClaw exige Node 24.16+ ou 26.1+. O instalador oficial provisiona o Node se faltar.
-    if tem node && node -e 'const [a,b]=process.versions.node.split(".").map(Number);process.exit((a===24&&b>=16)||a>=26?0:1)'; then
-      npm install -g openclaw@latest
-    else
-      curl -fsSL https://openclaw.ai/install.sh | bash
-    fi
+# 3. Hermes ------------------------------------------------------------------
+if [[ $HERMES -eq 1 ]]; then
+  passo "Hermes Agent"
+  if ! tem hermes; then
+    # Instalador oficial; --non-interactive pula o assistente de configuração.
+    curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --non-interactive
     hash -r
-    tem openclaw || echo "AVISO: openclaw instalado, mas fora do PATH. Abra um terminal novo e rode ./setup.sh de novo."
   fi
-  if tem openclaw; then
+  if ! tem hermes; then
+    echo "AVISO: hermes instalado, mas fora do PATH. Abra um terminal novo e rode ./setup.sh de novo."
+  else
+    # sem pipe: `hermes --version | head -1` gera broken pipe e, com pipefail, encerra o script
+    hv="$(hermes --version 2>&1 || true)"; hv="${hv%%$'\n'*}"
+    versao="$(grep -oE '[0-9]+\.[0-9]+\.[0-9]+' <<< "$hv" | head -1 || true)"
+    echo "instalado: $hv"
+    if [[ "$(printf '%s\n%s\n' "$HERMES_MIN" "$versao" | sort -V | head -1)" != "$HERMES_MIN" ]]; then
+      echo "AVISO: Hermes $versao é antigo (mínimo $HERMES_MIN). Atualize com: hermes update"
+    fi
+
+    # HERMES_HOME do projeto. O Hermes recusa pasta que outro usuário possa escrever.
+    mkdir -p "$HERMES_HOME"; chmod 700 "$HERMES_HOME"
+    ( set -a; [[ -f .env ]] && source .env; set +a
+      bash scripts/config_hermes.sh "${PROVEDOR:-ollama}" "$HERMES_HOME/config.yaml" )
+    echo "HERMES_HOME do projeto: $HERMES_HOME"
+
     echo "plugin do Groq:"
-    openclaw plugins install @openclaw/groq-provider || echo "AVISO: falhou (pode já estar instalado)."
-    echo "allowlist de comandos (agente main):"
-    for bin in "$(command -v python3)" "$(realpath "$(command -v python3)")" "$(command -v head)"; do
-      openclaw approvals allowlist add --agent main "$bin" >/dev/null && echo "  + $bin"
-    done
+    if [[ -d "$HERMES_HOME/plugins/groq-provider" ]]; then
+      echo "  já instalado"
+    else
+      hermes plugins install groq-provider || echo "AVISO: falhou instalar o groq-provider."
+    fi
+
+    echo "guarda de comandos:"
+    python3 scripts/testar_guarda.py | tail -1
   fi
 fi
 
 # 4. .env --------------------------------------------------------------------
-passo "Chave do Groq"
+passo "Arquivo .env"
 if [[ ! -f .env ]]; then
   cp .env.example .env
-  echo "criado .env: edite e coloque sua GROQ_API_KEY (console.groq.com/keys)."
-elif grep -q 'sua_chave_aqui' .env; then
-  echo "AVISO: .env ainda tem o valor de exemplo; coloque sua chave."
+  echo "criado .env (padrão: Ollama). Para usar o Groq, defina PROVEDOR=groq e GROQ_API_KEY."
 else
   echo "ok: .env já existe (a chave não é exibida)."
 fi
@@ -93,18 +105,9 @@ grep -qx '.env' .gitignore 2>/dev/null || echo "AVISO: .env não está no .gitig
 
 # 5. versões -----------------------------------------------------------------
 passo "Versões"
-mkdir -p evidencias
-{
-  echo "data: $(date -Iseconds)"
-  echo "sistema: $(uname -srm)"
-  echo "python: $(python --version 2>&1)"
-  tem node && echo "node: $(node --version)"
-  tem opencode && echo "opencode: $(opencode --version 2>&1 | head -1)"
-  tem openclaw && echo "openclaw: $(openclaw --version 2>&1 | head -1)"
-} | tee evidencias/versoes.txt
+bash scripts/registrar_versoes.sh
 
 echo
 echo "Pronto. Próximos passos:"
-echo "  1. coloque a chave no .env"
-echo "  2. source venv/bin/activate"
-echo "  3. ./run.sh -t tarefa1_validacao -c caso1     (um teste rápido)"
+echo "  1. com Ollama: ollama pull qwen3:8b   (com Groq: coloque a chave no .env)"
+echo "  2. ./run.sh -t tarefa1_validacao -c caso1     (um teste rápido)"

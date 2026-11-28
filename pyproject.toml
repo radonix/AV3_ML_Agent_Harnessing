@@ -1,0 +1,12 @@
+[project]
+name = "av3-agent-harness"
+version = "0.1.0"
+description = "Agentes de relatórios de vendas no OpenCode e no Hermes Agent"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "openpyxl",
+    "pandas",
+]
+
+[tool.uv]
+package = false

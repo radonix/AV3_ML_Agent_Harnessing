@@ -1,6 +1,27 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": { "providerID": "groq", "model": "openai/gpt-oss-20b" },
+  "model": { "providerID": "ollama", "model": "qwen3:8b" },
+  "providers": {
+    "ollama": {
+      "name": "Ollama",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": { "baseURL": "{env:OLLAMA_BASE_URL}/v1", "apiKey": "ollama" },
+      "models": {
+        "qwen3:8b": {
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 65536, "output": 8192 }
+        },
+        "qwen3:4b": {
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 65536, "output": 8192 }
+        },
+        "qwen2.5:7b-instruct": {
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 65536, "output": 8192 }
+        }
+      }
+    }
+  },
   "permissions": [
     { "action": "*", "resource": "*", "effect": "deny" },
 

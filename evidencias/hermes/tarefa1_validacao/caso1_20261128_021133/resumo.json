@@ -1,0 +1,22 @@
+{
+  "plataforma": "hermes",
+  "provedor": "groq",
+  "modelo": "openai/gpt-oss-20b",
+  "tarefa": "tarefa1_validacao",
+  "caso": "caso1",
+  "codigo_saida": "0",
+  "concluiu": true,
+  "saidas_ok": true,
+  "dados_intactos": true,
+  "requisicoes": 3,
+  "tokens_entrada": 11686,
+  "tokens_saida": 235,
+  "tokens_raciocinio": "",
+  "tokens_cache": 0,
+  "erros_429": 1,
+  "erros_413": 0,
+  "bloqueios_ou_exec_falho": 0,
+  "duracao_s": "36.9",
+  "evidencias": "evidencias/hermes/tarefa1_validacao/caso1_20261128_021133",
+  "resposta_final": "Linhas: 505 | Tipos de problema: 2 | Avisos: 0 - data | data inválida | 3 - (linha inteira) | linha duplicada (cópia exata de outra) | 5 Relatório: saidas/relatorio_qualidade.md"
+}
